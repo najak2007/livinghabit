@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
-    
     private var today = Date()
+
     
     let dateformat: DateFormatter = {
         let fmt = DateFormatter()
@@ -21,20 +22,21 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: Text ("Detail View 1")) {
-                    Text("Link 1")
+                NavigationLink(destination: ToDoListView()) {
+                    Text("해야 할일")
                 }
                 
                 NavigationLink(destination: Text("Detail View 2")) {
-                    Text("Link 2")
+                    Text("끝낸 일")
                 }
                 
                 NavigationLink(destination: Text("Detail View 3")) {
-                    Text("Link 3")
+                    Text("오늘")
                 }
             }
             .navigationTitle("오늘 [\(dateformat.string(from: today))]")
         }
+
     }
 }
 
