@@ -10,6 +10,8 @@ import RealmSwift
 
 struct ToDoListView: View {
     @StateObject private var viewModel = ToDoListViewModel()
+    @FocusState private var focusedField: Bool
+    
     @State private var toDoListData = ToDoListData()
     @State private var toDoList: String = ""
     @State private var showingCustomAlert = false
@@ -17,16 +19,24 @@ struct ToDoListView: View {
     @State private var editedToDoList: String = ""
     
     var body: some View {
-        VStack {
-            TextField("할 일을 입력하세요", text: $toDoList)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                
-            Button("저장") {
-                toDoListData.toDoList = toDoList
-                viewModel.saveToDoList(toDoListData)
+        VStack (spacing: 20) {
+            HStack {
+                TextField("무엇을 할까?", text: $toDoList)
+                    .padding()
+                    .focused($focusedField)
+                    .font(.custom("AppleSDGothicNeo-Medium", size: 18))
+                    .frame(height: 45)
+                    .submitLabel(.done)
+                    .onSubmit {
+                        toDoListData.toDoList = toDoList
+                        viewModel.saveToDoList(toDoListData)
+                    }
             }
-            .padding()
+            .background(RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)
+                .fill(Color.gray.opacity(0.2) ))
+            .padding(.horizontal, 10)
+            .padding(.top, 10)
             
             List {
                 ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
@@ -43,6 +53,9 @@ struct ToDoListView: View {
                     }
                 }
                 .onDelete(perform: viewModel.deleteToDoList)
+            }
+            .onTapGesture {
+                self.endTextEditing()
             }
         }
         .sheet(isPresented: $showingCustomAlert) {
@@ -71,7 +84,6 @@ struct CustomAlertView: View {
             
             HStack {
                 Button("취소") {
-                    onSave()
                 }
                 .padding()
                 

@@ -29,6 +29,5 @@ final class LivingHabitData: Object {
     @objc dynamic var image: Data? = nil
     @objc dynamic var toDoList: ToDoListData? = nil
     @objc dynamic var memo = ""
-    @objc dynamic var placeList: Array<LocationInfoData> = []
-    
+    @objc dynamic var placeList: LocationInfoData? = nil
 }

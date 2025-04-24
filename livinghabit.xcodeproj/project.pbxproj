@@ -8,7 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		7A7FBF212DB9123C00BA04DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7FBF202DB9123C00BA04DE /* RealmSwift */; };
+		891B897D2DB9F2830036D3C4 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7A7FBF202DB9123C00BA04DE /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		891B897E2DB9F2830036D3C4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				891B897D2DB9F2830036D3C4 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7AAFC99D2DA7E01D00BFE6BA /* livinghabit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = livinghabit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +75,7 @@
 				7AAFC9992DA7E01D00BFE6BA /* Sources */,
 				7AAFC99A2DA7E01D00BFE6BA /* Frameworks */,
 				7AAFC99B2DA7E01D00BFE6BA /* Resources */,
+				891B897E2DB9F2830036D3C4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -274,7 +290,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -312,7 +328,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
