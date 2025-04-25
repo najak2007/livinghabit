@@ -55,7 +55,7 @@ struct ToDoListView: View {
                     }
                 }
                 .onDelete(perform: viewModel.deleteToDoList)
-            }
+            }.environment(\.defaultMinListRowHeight, 70)
             .onTapGesture {
                 self.endTextEditing()
             }

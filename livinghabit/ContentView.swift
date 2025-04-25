@@ -23,18 +23,28 @@ struct ContentView: View {
         NavigationView {
             List {
                 NavigationLink(destination: ToDoListView()) {
-                    Text("해야 할일")
+                    Text("☑️ 해야 할일")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                 }
                 
                 NavigationLink(destination: Text("Detail View 2")) {
-                    Text("끝낸 일")
+                    Text("✅ 끝낸 일")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                 }
                 
                 NavigationLink(destination: Text("Detail View 3")) {
                     Text("오늘")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                 }
-            }
-            .navigationTitle("오늘 [\(dateformat.string(from: today))]")
+            }.environment(\.defaultMinListRowHeight, 70)
+ //           .navigationTitle("오늘 📆\(dateformat.string(from: today))")
+            .navigationTitle(
+                Text("오늘")
+                    .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                + Text("\(dateformat.string(from: today))")
+                    .font(.custom("AppleSDGothicNeo-Medium", size: 14))
+                
+            )
         }
 
     }
