@@ -12,7 +12,6 @@ struct ToDoListView: View {
     @StateObject private var viewModel = ToDoListViewModel()
     @FocusState private var focusedField: Bool
     
-    @State private var toDoListData = ToDoListData()
     @State private var toDoList: String = ""
     @State private var showingCustomAlert = false
     @State private var selectedToDoListData: ToDoListData?
@@ -28,8 +27,11 @@ struct ToDoListView: View {
                     .frame(height: 45)
                     .submitLabel(.done)
                     .onSubmit {
-                        toDoListData.toDoList = toDoList
+                        let toDoListData = ToDoListData()
+                        toDoListData.toDoList = self.toDoList
+                        toDoListData.id = self.getToDoListDataID()
                         viewModel.saveToDoList(toDoListData)
+                        toDoList = ""
                     }
             }
             .background(RoundedRectangle(cornerRadius: 10)
@@ -59,19 +61,27 @@ struct ToDoListView: View {
             }
         }
         .sheet(isPresented: $showingCustomAlert) {
-            CustomAlertView(toDoList: $editedToDoList, onSave: {
-                if let selectedToDoListData = selectedToDoListData {
+            CustomAlertView(toDoList: $editedToDoList, onSave: { isResult in
+                if isResult, let selectedToDoListData = selectedToDoListData {
                     viewModel.updateToDoList(toDoListData: selectedToDoListData, newToDoList: editedToDoList)
                 }
                 showingCustomAlert = false
             })
         }
     }
+    
+    func getToDoListDataID() -> String {
+        let date: Date = Date()
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        let nowID: String = dateFormatter.string(from: date)
+        return nowID
+    }
 }
 
 struct CustomAlertView: View {
     @Binding var toDoList: String
-    var onSave: () -> Void
+    var onSave: (Bool) -> Void
     
     var body: some View {
         VStack(spacing: 20) {
@@ -84,11 +94,12 @@ struct CustomAlertView: View {
             
             HStack {
                 Button("취소") {
+                    onSave(false)
                 }
                 .padding()
                 
                 Button("저장") {
-                    onSave()
+                    onSave(true)
                 }
                 .padding()
             }
