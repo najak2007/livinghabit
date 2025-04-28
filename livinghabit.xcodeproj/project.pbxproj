@@ -7,18 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A7FBF212DB9123C00BA04DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7FBF202DB9123C00BA04DE /* RealmSwift */; };
-		7AD760602DBA596C005879D5 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7A7FBF202DB9123C00BA04DE /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7AAFC9B22DA7E10500BFE6BA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B12DA7E10500BFE6BA /* FirebaseAnalytics */; };
+		7AAFC9B42DA7E10500BFE6BA /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B32DA7E10500BFE6BA /* FirebaseCrashlytics */; };
+		7AAFC9B62DA7E10500BFE6BA /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B52DA7E10500BFE6BA /* FirebaseInAppMessaging-Beta */; };
+		7AAFC9B82DA7E10500BFE6BA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B72DA7E10500BFE6BA /* FirebaseMessaging */; };
+		7AAFC9BA2DA7E10500BFE6BA /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B92DA7E10500BFE6BA /* FirebasePerformance */; };
+		7AAFC9BD2DA7E22200BFE6BA /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9BC2DA7E22200BFE6BA /* RxBlocking */; };
+		7AAFC9BF2DA7E22200BFE6BA /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9BE2DA7E22200BFE6BA /* RxCocoa */; };
+		7AAFC9C12DA7E22200BFE6BA /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9C02DA7E22200BFE6BA /* RxRelay */; };
+		7AAFC9C32DA7E22200BFE6BA /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9C22DA7E22200BFE6BA /* RxSwift */; };
+		7AF9F7EC2DAD2C3600317732 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7AF9F7EB2DAD2C3600317732 /* Alamofire */; };
+		8914871A2DBEEF1C0082D7BC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 891487192DBEEF1C0082D7BC /* RealmSwift */; };
+		8914871B2DBEEF290082D7BC /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 891487192DBEEF1C0082D7BC /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7AD760612DBA596C005879D5 /* Embed Frameworks */ = {
+		8914871C2DBEEF290082D7BC /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7AD760602DBA596C005879D5 /* RealmSwift in Embed Frameworks */,
+				8914871B2DBEEF290082D7BC /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,7 +52,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A7FBF212DB9123C00BA04DE /* RealmSwift in Frameworks */,
+				7AAFC9C12DA7E22200BFE6BA /* RxRelay in Frameworks */,
+				7AAFC9BF2DA7E22200BFE6BA /* RxCocoa in Frameworks */,
+				7AAFC9BA2DA7E10500BFE6BA /* FirebasePerformance in Frameworks */,
+				7AAFC9B82DA7E10500BFE6BA /* FirebaseMessaging in Frameworks */,
+				7AAFC9B42DA7E10500BFE6BA /* FirebaseCrashlytics in Frameworks */,
+				7AF9F7EC2DAD2C3600317732 /* Alamofire in Frameworks */,
+				7AAFC9BD2DA7E22200BFE6BA /* RxBlocking in Frameworks */,
+				7AAFC9B22DA7E10500BFE6BA /* FirebaseAnalytics in Frameworks */,
+				8914871A2DBEEF1C0082D7BC /* RealmSwift in Frameworks */,
+				7AAFC9B62DA7E10500BFE6BA /* FirebaseInAppMessaging-Beta in Frameworks */,
+				7AAFC9C32DA7E22200BFE6BA /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +95,7 @@
 				7AAFC9992DA7E01D00BFE6BA /* Sources */,
 				7AAFC99A2DA7E01D00BFE6BA /* Frameworks */,
 				7AAFC99B2DA7E01D00BFE6BA /* Resources */,
-				7AD760612DBA596C005879D5 /* Embed Frameworks */,
+				8914871C2DBEEF290082D7BC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -86,7 +106,17 @@
 			);
 			name = livinghabit;
 			packageProductDependencies = (
-				7A7FBF202DB9123C00BA04DE /* RealmSwift */,
+				7AAFC9B12DA7E10500BFE6BA /* FirebaseAnalytics */,
+				7AAFC9B32DA7E10500BFE6BA /* FirebaseCrashlytics */,
+				7AAFC9B52DA7E10500BFE6BA /* FirebaseInAppMessaging-Beta */,
+				7AAFC9B72DA7E10500BFE6BA /* FirebaseMessaging */,
+				7AAFC9B92DA7E10500BFE6BA /* FirebasePerformance */,
+				7AAFC9BC2DA7E22200BFE6BA /* RxBlocking */,
+				7AAFC9BE2DA7E22200BFE6BA /* RxCocoa */,
+				7AAFC9C02DA7E22200BFE6BA /* RxRelay */,
+				7AAFC9C22DA7E22200BFE6BA /* RxSwift */,
+				7AF9F7EB2DAD2C3600317732 /* Alamofire */,
+				891487192DBEEF1C0082D7BC /* RealmSwift */,
 			);
 			productName = livinghabit;
 			productReference = 7AAFC99D2DA7E01D00BFE6BA /* livinghabit.app */;
@@ -117,7 +147,10 @@
 			mainGroup = 7AAFC9942DA7E01D00BFE6BA;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				7A7FBF1F2DB9123C00BA04DE /* XCRemoteSwiftPackageReference "realm-swift" */,
+				7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */,
+				7AF9F7EA2DAD2C3600317732 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				891487182DBEEF1C0082D7BC /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7AAFC99E2DA7E01D00BFE6BA /* Products */;
@@ -371,9 +404,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7A7FBF1F2DB9123C00BA04DE /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+		7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+		7AF9F7EA2DAD2C3600317732 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		891487182DBEEF1C0082D7BC /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
 			requirement = {
 				branch = master;
 				kind = branch;
@@ -382,9 +439,59 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7A7FBF202DB9123C00BA04DE /* RealmSwift */ = {
+		7AAFC9B12DA7E10500BFE6BA /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7A7FBF1F2DB9123C00BA04DE /* XCRemoteSwiftPackageReference "realm-swift" */;
+			package = 7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		7AAFC9B32DA7E10500BFE6BA /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		7AAFC9B52DA7E10500BFE6BA /* FirebaseInAppMessaging-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseInAppMessaging-Beta";
+		};
+		7AAFC9B72DA7E10500BFE6BA /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		7AAFC9B92DA7E10500BFE6BA /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
+		};
+		7AAFC9BC2DA7E22200BFE6BA /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		7AAFC9BE2DA7E22200BFE6BA /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		7AAFC9C02DA7E22200BFE6BA /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		7AAFC9C22DA7E22200BFE6BA /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		7AF9F7EB2DAD2C3600317732 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AF9F7EA2DAD2C3600317732 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		891487192DBEEF1C0082D7BC /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 891487182DBEEF1C0082D7BC /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */

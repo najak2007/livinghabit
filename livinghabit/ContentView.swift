@@ -9,7 +9,11 @@ import SwiftUI
 
 
 struct ContentView: View {
-    private var today = Date()
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State private var isShowCalendar: Bool = false
+    @State private var date = Date()
 
     
     let dateformat: DateFormatter = {
@@ -20,26 +24,60 @@ struct ContentView: View {
     }()
     
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: ToDoListView()) {
-                    Text("☑️ 해야 할일")
-                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+        VStack(spacing: 20) {
+            VStack {
+                HStack {
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("오늘")
+                            .font(.custom("AppleSDGothicNeo-Bold", size: 24))
+                            .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                        
+                        Text(dateformat.string(from: date))
+                            .font(.custom("AppleSDGothicNeo-Regular", size: 15))
+                            .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                    })
                 }
+            }
+            .overlay {
+                DatePicker(
+                    selection: $date,
+                    displayedComponents: [.date]
+                ) {}
+                    .labelsHidden()
+                    .colorMultiply(.clear)
                 
-                NavigationLink(destination: Text("Detail View 2")) {
-                    Text("✅ 끝낸 일")
-                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                }
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: String(Locale.preferredLanguages[0])))
                 
-                NavigationLink(destination: Text("Detail View 3")) {
-                    Text("생활")
-                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                }
-            }.environment(\.defaultMinListRowHeight, 70)
-            .navigationTitle("오늘 \(dateformat.string(from: today))")
-        }
+            }
+            
+            NavigationView {
+                List {
+                    NavigationLink(destination: ToDoListView()) {
+                        Text("☑️ 할 일")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                    }
+                    
+                    NavigationLink(destination: Text("Detail View 2")) {
+                        Text("✅ 한 일")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                    }
+                    
+                    NavigationLink(destination: Text("Detail View 3")) {
+                        Text("🥙 식단")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                    }
 
+                    NavigationLink(destination: Text("Detail View 3")) {
+                        Text("🏃‍♂️‍➡️ 운동")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                    }
+
+                }.environment(\.defaultMinListRowHeight, 70)
+            }
+        }
     }
 }
 
