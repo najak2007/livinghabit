@@ -29,6 +29,15 @@ struct ContentView: View {
             VStack {
                 HStack {
                     Button(action: {
+                        date = Date()
+                    }, label: {
+                        Text(Date().dateCompare(fromDate: date) == "S" ? "" : "오늘")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: Date().dateCompare(fromDate: date) == "S" ? 0 : 15 ))
+                    })
+                    
+                    Spacer()
+                    
+                    Button(action: {
                         
                     }, label: {
                         Text(Date().dateCompare(fromDate: date) == "S" ? "오늘" : "")
@@ -36,9 +45,11 @@ struct ContentView: View {
                             .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                         
                         Text(dateformat.string(from: date))
-                            .font(.custom("AppleSDGothicNeo-Regular", size: Date().dateCompare(fromDate: date) == "S" ? 15 : 24))
+                            .font(.custom(Date().dateCompare(fromDate: date) == "S" ? "AppleSDGothicNeo-Regular" : "AppleSDGothicNeo-Bold", size: Date().dateCompare(fromDate: date) == "S" ? 15 : 24))
                             .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                     })
+                    
+                    Spacer()
                 }
             }
             .overlay {
@@ -52,6 +63,7 @@ struct ContentView: View {
                 .environment(\.locale, Locale(identifier: String(Locale.preferredLanguages[0])))
                 
             }
+            .padding(.horizontal, 20)
             
             NavigationView {
                 List {
