@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 
 struct ContentView: View {
@@ -14,6 +15,8 @@ struct ContentView: View {
     
     @State private var isShowCalendar: Bool = false
     @State private var date = Date()
+    @State private var latitude: Double?
+    @State private var longitude: Double?
     private var today = Date()
 
     
@@ -90,9 +93,42 @@ struct ContentView: View {
                 }.environment(\.defaultMinListRowHeight, 70)
             }
         }
+        .task() {
+            await startPermissionTask()
+            
+        }
     }
     
+    func startPermissionTask() async {
+        let locationManager = CLLocationManager()
+        let authorizationStatus = locationManager.authorizationStatus
+        
+        // 위치 사용 권한 항상 허용되어 있음
+        if authorizationStatus == .authorizedAlways {
+            
+        } else if authorizationStatus == .authorizedWhenInUse {     // 위치 사용 권한 앱 사용 시 허용되어 있음
+            locationManager.requestAlwaysAuthorization()
+        } else if authorizationStatus == .denied {                  // 위치 사용 권한 거부되어 있음
+            DispatchQueue.main.async {
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }
+        } else if authorizationStatus == .notDetermined || authorizationStatus == .restricted {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        getCurrentLocation()
+    }
+    
+    func getCurrentLocation()  {
+        let locationManager = CLLocationManager()
+        locationManager.distanceFilter = 10
+//        locationManager.startUpdatingLocation()
+
+        let coordinate = locationManager.location?.coordinate
+        self.latitude = coordinate?.latitude ?? 0
+        self.longitude = coordinate?.longitude ?? 0
+    }
 }
+
 
 #Preview {
     ContentView()
