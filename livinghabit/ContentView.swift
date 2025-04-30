@@ -10,13 +10,17 @@ import CoreLocation
 
 
 struct ContentView: View {
-    
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowCalendar: Bool = false
     @State private var date = Date()
     @State private var latitude: Double?
     @State private var longitude: Double?
+    
+    @StateObject var locationManager = LocationManager()
+    @StateObject var weatherServiceManager = WeatherServiceManager()
+    
+    
     private var today = Date()
 
     
@@ -26,6 +30,7 @@ struct ContentView: View {
         fmt.locale = Locale(identifier: "ko_KR")
         return fmt
     }()
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -89,13 +94,31 @@ struct ContentView: View {
                         Text("🏃‍♂️‍➡️ 운동")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
+                    
+                    NavigationLink(destination: Text("날씨 정보")) {
+                        if let location = locationManager.location {
+                            if let currentWeather = weatherServiceManager.currentWeather {
+                                Text("🌡️:\(currentWeather.temperature.formatted()) 날씨 : \(currentWeather.condition.description)")
+                            } else {
+                                ProgressView("Loading weather...")
+                                    .onAppear {
+                                        Task {
+                                            await weatherServiceManager.getWeather(for: location)
+                                        }
+                                    }
+                            }
+                        } else if let error = locationManager.errorMessage {
+                            Text(error)
+                        } else {
+                            ProgressView("Fetching location...")
+                        }
+                    }
 
                 }.environment(\.defaultMinListRowHeight, 70)
             }
         }
         .task() {
-            await startPermissionTask()
-            
+            //await startPermissionTask()
         }
     }
     
@@ -115,7 +138,6 @@ struct ContentView: View {
         } else if authorizationStatus == .notDetermined || authorizationStatus == .restricted {
             locationManager.requestWhenInUseAuthorization()
         }
-        getCurrentLocation()
     }
     
     func getCurrentLocation()  {
