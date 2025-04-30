@@ -96,7 +96,6 @@ struct ContentView: View {
         .task() {
             await startPermissionTask()
             
-            
         }
     }
     
@@ -116,8 +115,20 @@ struct ContentView: View {
         } else if authorizationStatus == .notDetermined || authorizationStatus == .restricted {
             locationManager.requestWhenInUseAuthorization()
         }
+        getCurrentLocation()
+    }
+    
+    func getCurrentLocation()  {
+        let locationManager = CLLocationManager()
+        locationManager.distanceFilter = 10
+//        locationManager.startUpdatingLocation()
+
+        let coordinate = locationManager.location?.coordinate
+        self.latitude = coordinate?.latitude ?? 0
+        self.longitude = coordinate?.longitude ?? 0
     }
 }
+
 
 #Preview {
     ContentView()
