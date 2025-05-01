@@ -11,11 +11,13 @@ import CoreLocation
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.scenePhase) var scenePhase
     
     @State private var isShowCalendar: Bool = false
     @State private var date = Date()
     @State private var latitude: Double?
     @State private var longitude: Double?
+    @State private var location: CLLocationCoordinate2D?
     
     @StateObject var locationManager = LocationManager()
     @StateObject var weatherServiceManager = WeatherServiceManager()
@@ -96,24 +98,31 @@ struct ContentView: View {
                     }
                     
                     NavigationLink(destination: Text("날씨 정보")) {
-                        if let location = locationManager.location {
+                        if locationManager.location != nil {
                             if let currentWeather = weatherServiceManager.currentWeather {
                                 Text("🌡️:\(currentWeather.temperature.formatted()) 날씨 : \(currentWeather.condition.description)")
+                                    .onChange(of: scenePhase) { oldPhase, newPhase in
+                                        print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                                        if newPhase == .active, oldPhase == .inactive {
+                                            Task {
+                                                await weatherServiceManager.getWeather(for: locationManager.location!)
+                                            }
+                                        }
+                                    }
                             } else {
-                                ProgressView("Loading weather...")
+                                ProgressView("")
                                     .onAppear {
                                         Task {
-                                            await weatherServiceManager.getWeather(for: location)
+                                            await weatherServiceManager.getWeather(for: locationManager.location!)
                                         }
                                     }
                             }
                         } else if let error = locationManager.errorMessage {
                             Text(error)
                         } else {
-                            ProgressView("Fetching location...")
+                            ProgressView("")
                         }
                     }
-
                 }.environment(\.defaultMinListRowHeight, 70)
             }
         }
