@@ -100,15 +100,30 @@ struct ContentView: View {
                     NavigationLink(destination: Text("날씨 정보")) {
                         if locationManager.location != nil {
                             if let currentWeather = weatherServiceManager.currentWeather {
-                                Text("🌡️:\(currentWeather.temperature.formatted()) 날씨 : \(currentWeather.condition.description)")
-                                    .onChange(of: scenePhase) { oldPhase, newPhase in
-                                        print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
-                                        if newPhase == .active, oldPhase == .inactive {
-                                            Task {
-                                                await weatherServiceManager.getWeather(for: locationManager.location!)
+//                                Text("🌡️:\(currentWeather.temperature.formatted()) 날씨 : \(currentWeather.condition.description)")
+//                                    .onChange(of: scenePhase) { oldPhase, newPhase in
+//                                        print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+//                                        if newPhase == .active, oldPhase == .inactive {
+//                                            Task {
+//                                                await weatherServiceManager.getWeather(for: locationManager.location!)
+//                                            }
+//                                        }
+//                                    }
+                                HStack {
+                                    Image(systemName: currentWeather.symbolName)
+                                        .imageScale(.large)
+                                        .onChange(of: scenePhase) { oldPhase, newPhase in
+                                            print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                                            if newPhase == .active, oldPhase == .inactive {
+                                                Task {
+                                                    await weatherServiceManager.getWeather(for: locationManager.location!)
+                                                }
                                             }
                                         }
-                                    }
+                                    
+                                    let unitStr: String = currentWeather.temperature.unit == .celsius ? "°C" : "°F"
+                                    Text(String(currentWeather.temperature.value.rounded(.up)) + unitStr)
+                                }
                             } else {
                                 ProgressView("")
                                     .onAppear {
