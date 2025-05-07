@@ -23,6 +23,20 @@ final class ToDoListData: Object {
     @objc dynamic var date: Date = Date()
 }
 
+final class DayWeatherData: Object {
+    @objc dynamic var id: String = ""
+    @objc dynamic var latitude: Double = 0
+    @objc dynamic var longitude: Double = 0
+    @objc dynamic var temperature: String = ""
+    @objc dynamic var dewPoint: String = ""
+    @objc dynamic var humidity: String = ""
+    @objc dynamic var windSpeed: String = ""
+    @objc dynamic var condition: String = ""
+    @objc dynamic var isDaylight: Bool = false
+    @objc dynamic var unIndex: Int = 0
+    @objc dynamic var date: Date = Date()
+}
+
 final class LivingHabitData: Object {
     @objc dynamic var id = ""
     @objc dynamic var date = Date()
