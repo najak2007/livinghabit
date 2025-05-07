@@ -10,7 +10,7 @@ import RealmSwift
 
 class WeatherViewModel: ObservableObject {
     private var realm: Realm?
-    @Published var dayWeather: DayWeatherData?
+    @Published var weather: WeatherData?
     
     init() {
         do {
@@ -21,7 +21,7 @@ class WeatherViewModel: ObservableObject {
         }
     }
     
-    func saveWeatherData(_ weatherDate: DayWeatherData) {
+    func saveWeatherData(_ weatherDate: WeatherData) {
         guard let realm = realm else { return }
         
         do {
