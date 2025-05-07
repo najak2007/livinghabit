@@ -13,6 +13,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) var scenePhase
     
+    @StateObject private var timeViewModel = TimeViewModel()
     @State private var isShowCalendar: Bool = false
     @State private var date = Date()
     @State private var latitude: Double?
@@ -96,7 +97,12 @@ struct ContentView: View {
                         Text("🏃‍♂️‍➡️ 운동")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
-                    
+
+#if true
+                    NavigationLink(destination: WeatherView()) {
+                        Text("🌙\(timeViewModel.getTimeCondition())")
+                    }
+#else
                     NavigationLink(destination: Text("날씨 정보")) {
                         if locationManager.location != nil {
                             if let currentWeather = weatherServiceManager.currentWeather {
@@ -115,7 +121,7 @@ struct ContentView: View {
                                         }
                                     
                                     let unitStr: String = currentWeather.temperature.unit == .fahrenheit ? "°F" : "°C"
-                                    Text(String(Int(currentWeather.temperature.value.rounded(.up))) + unitStr)
+                                    Text(String(Int(currentWeather.temperature.value.rounded(.down))) + unitStr)
                                     
                                     Text(currentWeather.condition.description)
                                 }
@@ -133,6 +139,7 @@ struct ContentView: View {
                             ProgressView("")
                         }
                     }
+#endif
                 }.environment(\.defaultMinListRowHeight, 70)
             }
         }
