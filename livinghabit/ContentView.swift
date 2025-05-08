@@ -100,7 +100,7 @@ struct ContentView: View {
 
 #if true
                     NavigationLink(destination: WeatherView()) {
-                        Text("🌙\(timeViewModel.getTimeCondition())")
+                        Text("\(timeViewModel.getTimeCondition())")
                     }
 #else
                     NavigationLink(destination: Text("날씨 정보")) {

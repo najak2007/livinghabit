@@ -59,8 +59,8 @@ final class WeatherData: Object {
     @objc dynamic var isDaylight: Bool = false
     @objc dynamic var unIndex: Int = 0
     @objc dynamic var date: Date = Date()
-    @objc dynamic var hourWeatherDataList: Array<HourWeatherData> = Array<HourWeatherData>()
-    @objc dynamic var dayWeatherDataList: Array<DayWeatherData> = Array<DayWeatherData>()
+    dynamic var hourWeatherDataList: List<HourWeatherData> = List<HourWeatherData>()
+    dynamic var dayWeatherDataList: List<DayWeatherData> = List<DayWeatherData>()
 }
 
 final class LivingHabitData: Object {
