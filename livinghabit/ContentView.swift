@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CoreLocation
-
+import MapKit
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -93,7 +93,7 @@ struct ContentView: View {
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
 
-                    NavigationLink(destination: Text("Detail View 3")) {
+                    NavigationLink(destination: HealthView(region: self.currentRegion())) {
                         Text("🏃‍♂️‍➡️ 운동")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
@@ -146,6 +146,10 @@ struct ContentView: View {
         .task() {
             //await startPermissionTask()
         }
+    }
+    
+    private func currentRegion() -> MKCoordinateRegion {
+        return MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     }
     
     func startPermissionTask() async {
