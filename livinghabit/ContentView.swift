@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var latitude: Double?
     @State private var longitude: Double?
     @State private var location: CLLocationCoordinate2D?
+    @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     
     @StateObject var locationManager = LocationManager()
     @StateObject var weatherServiceManager = WeatherServiceManager()
@@ -93,21 +94,25 @@ struct ContentView: View {
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
 
-                    NavigationLink(destination: HealthView(region: self.currentRegion())) {
+                    NavigationLink(destination: HealthView(region: region)) {
                         Text("🏃‍♂️‍➡️ 운동")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                            .onChange(of: scenePhase) { oldPhase, newPhase in
+                                print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                                if newPhase == .active, oldPhase == .inactive {
+                                    currentRegion()
+                                }
+                            }
                     }
-                    
+#if false
                     NavigationLink(destination: TranslateEXView()) {
                         Text("번역 예정")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
 
-#if true
                     NavigationLink(destination: WeatherView()) {
                         Text("\(timeViewModel.getTimeCondition())")
                     }
-#else
                     NavigationLink(destination: Text("날씨 정보")) {
                         if locationManager.location != nil {
                             if let currentWeather = weatherServiceManager.currentWeather {
@@ -149,41 +154,41 @@ struct ContentView: View {
             }
         }
         .task() {
-            //await startPermissionTask()
+            currentRegion()
         }
     }
     
-    private func currentRegion() -> MKCoordinateRegion {
-        return MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+    private func currentRegion() {
+        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     }
     
-    func startPermissionTask() async {
-        let locationManager = CLLocationManager()
-        let authorizationStatus = locationManager.authorizationStatus
-        
-        // 위치 사용 권한 항상 허용되어 있음
-        if authorizationStatus == .authorizedAlways {
-            
-        } else if authorizationStatus == .authorizedWhenInUse {     // 위치 사용 권한 앱 사용 시 허용되어 있음
-            locationManager.requestAlwaysAuthorization()
-        } else if authorizationStatus == .denied {                  // 위치 사용 권한 거부되어 있음
-            DispatchQueue.main.async {
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-            }
-        } else if authorizationStatus == .notDetermined || authorizationStatus == .restricted {
-            locationManager.requestWhenInUseAuthorization()
-        }
-    }
-    
-    func getCurrentLocation()  {
-        let locationManager = CLLocationManager()
-        locationManager.distanceFilter = 10
-//        locationManager.startUpdatingLocation()
-
-        let coordinate = locationManager.location?.coordinate
-        self.latitude = coordinate?.latitude ?? 0
-        self.longitude = coordinate?.longitude ?? 0
-    }
+//    func startPermissionTask() async {
+//        let locationManager = CLLocationManager()
+//        let authorizationStatus = locationManager.authorizationStatus
+//        
+//        // 위치 사용 권한 항상 허용되어 있음
+//        if authorizationStatus == .authorizedAlways {
+//            
+//        } else if authorizationStatus == .authorizedWhenInUse {     // 위치 사용 권한 앱 사용 시 허용되어 있음
+//            locationManager.requestAlwaysAuthorization()
+//        } else if authorizationStatus == .denied {                  // 위치 사용 권한 거부되어 있음
+//            DispatchQueue.main.async {
+//                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+//            }
+//        } else if authorizationStatus == .notDetermined || authorizationStatus == .restricted {
+//            locationManager.requestWhenInUseAuthorization()
+//        }
+//    }
+//    
+//    func getCurrentLocation()  {
+//        let locationManager = CLLocationManager()
+//        locationManager.distanceFilter = 10
+////        locationManager.startUpdatingLocation()
+//
+//        let coordinate = locationManager.location?.coordinate
+//        self.latitude = coordinate?.latitude ?? 0
+//        self.longitude = coordinate?.longitude ?? 0
+//    }
 }
 
 
