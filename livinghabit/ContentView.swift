@@ -97,6 +97,11 @@ struct ContentView: View {
                         Text("🏃‍♂️‍➡️ 운동")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                     }
+                    
+                    NavigationLink(destination: TranslateEXView()) {
+                        Text("번역 예정")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                    }
 
 #if true
                     NavigationLink(destination: WeatherView()) {
