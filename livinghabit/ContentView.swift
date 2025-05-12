@@ -19,7 +19,7 @@ struct ContentView: View {
     @State private var latitude: Double?
     @State private var longitude: Double?
     @State private var location: CLLocationCoordinate2D?
-    @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+    @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     
     @StateObject var locationManager = LocationManager()
     @StateObject var weatherServiceManager = WeatherServiceManager()
@@ -159,7 +159,7 @@ struct ContentView: View {
     }
     
     private func currentRegion() {
-        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     }
     
 //    func startPermissionTask() async {
