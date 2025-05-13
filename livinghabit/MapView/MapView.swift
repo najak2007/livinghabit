@@ -6,18 +6,30 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct MapView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var viewModel = MapViewModel()
+    @State var region: MKCoordinateRegion?
     
     var body: some View {
-        WrapperView(view: viewModel.mapView)
-            .ignoresSafeArea()
+        VStack {
+            WrapperView(view: viewModel.mapView)
+                .ignoresSafeArea()
+        }
+        .overlay {
+            Button {
+                self.presentationMode.wrappedValue.dismiss()
+            } label: {
+                Image("talk_close")
+            }
+            .position(x: 15, y: 15)
+        }
+        .onAppear {
+            viewModel.setCenter(region)
+        }
+        .navigationBarHidden(true)
     }
 }
 
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        MapView()
-    }
-}

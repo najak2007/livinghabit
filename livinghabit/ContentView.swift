@@ -104,6 +104,17 @@ struct ContentView: View {
                                 }
                             }
                     }
+                    
+                    NavigationLink(destination: MapView(region: region)) {
+                        Text("🗺️ 지도")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                            .onChange(of: scenePhase) { oldPhase, newPhase in
+                                print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                                if newPhase == .active, oldPhase == .inactive {
+                                    currentRegion()
+                                }
+                            }
+                    }
 #if false
                     NavigationLink(destination: TranslateEXView()) {
                         Text("번역 예정")

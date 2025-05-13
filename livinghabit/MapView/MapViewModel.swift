@@ -10,26 +10,25 @@ import MapKit
 
 class MapViewModel: NSObject, ObservableObject {
     let mapView = MKMapView()
+    var region: MKCoordinateRegion?
     
     override init() {
         super.init()
-        
         mapView.delegate = self
-        setCenter()
-        addAnnotation()
+//        mapView.isUserInteractionEnabled = false
     }
     
-    func setCenter() {
-        var region = MKCoordinateRegion()
-        region.center = CLLocationCoordinate2D(latitude: 37.5665, longitude: 126.9780)
+    func setCenter(_ currentRegion: MKCoordinateRegion? = nil) {
+        guard var region = currentRegion else { return }
         region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         mapView.setRegion(region, animated: true)
+        addAnnotation(currentRegion)
     }
     
-    func addAnnotation() {
+    func addAnnotation(_ currentRegion: MKCoordinateRegion?) {
+        guard let region = currentRegion else { return }
         let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 37.5665, longitude: 126.9780)
-        annotation.title = "서울"
+        annotation.coordinate = CLLocationCoordinate2D(latitude: region.center.latitude, longitude: region.center.longitude)
         mapView.addAnnotation(annotation)
     }
 }
