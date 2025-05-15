@@ -14,6 +14,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     
     @StateObject private var timeViewModel = TimeViewModel()
+    
     @State private var isShowCalendar: Bool = false
     @State private var date = Date()
     @State private var latitude: Double?
@@ -23,7 +24,7 @@ struct ContentView: View {
     
     @StateObject var locationManager = LocationManager()
     @StateObject var weatherServiceManager = WeatherServiceManager()
-    
+    @StateObject var commonViewModel: CommonViewModel = .init()
     
     private var today = Date()
 
@@ -41,11 +42,12 @@ struct ContentView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        date = Date()
+                        //date = Date()
                     }, label: {
-                        Text(Date().dateCompare(fromDate: date) == "S" ? "" : "오늘")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: Date().dateCompare(fromDate: date) == "S" ? 0 : 15 ))
+                        Image(colorScheme == .dark ? "btn_back_w_prs" : "btn_back_b_prs")
+                            .opacity(commonViewModel.isBackButtonHidden ? 0 : 1)
                     })
+                    .padding(.leading, -20)
                     
                     Spacer()
                     
@@ -62,6 +64,13 @@ struct ContentView: View {
                     })
                     
                     Spacer()
+                    
+                    Button(action: {
+                        date = Date()
+                    }, label: {
+                        Text(Date().dateCompare(fromDate: date) == "S" ? "" : "오늘")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: Date().dateCompare(fromDate: date) == "S" ? 0 : 15 ))
+                    })
                 }
             }
             .overlay {
@@ -105,7 +114,7 @@ struct ContentView: View {
                             }
                     }
                     
-                    NavigationLink(destination: MapView(region: region)) {
+                    NavigationLink(destination: MapView(region: region, commonViewModel: commonViewModel)) {
                         Text("🗺️ 지도")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                             .onChange(of: scenePhase) { oldPhase, newPhase in
@@ -203,6 +212,3 @@ struct ContentView: View {
 }
 
 
-#Preview {
-    ContentView()
-}

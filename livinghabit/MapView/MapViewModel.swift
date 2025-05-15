@@ -15,13 +15,28 @@ class MapViewModel: NSObject, ObservableObject {
     override init() {
         super.init()
         mapView.delegate = self
-//        mapView.isUserInteractionEnabled = false
+#if false       /* true : map 의 위치 조정이 안된다. */
+        mapView.isUserInteractionEnabled = false
+#endif
+        addGestureRecognizer()
+    }
+
+    private func addGestureRecognizer() {
+        let longTopGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTap))
+        mapView.addGestureRecognizer(longTopGesture)
+    }
+    
+    @objc func handleTap(gestureReconizer: UITapGestureRecognizer) {
+        let locationOnMap = gestureReconizer.location(in: mapView)
+        let coordinate = mapView.convert(locationOnMap, toCoordinateFrom: mapView)
+        print("On long tap coordinates: \(coordinate)")
     }
     
     func setCenter(_ currentRegion: MKCoordinateRegion? = nil) {
         guard var region = currentRegion else { return }
         region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         mapView.setRegion(region, animated: true)
+        mapView.showsUserLocation = true
         addAnnotation(currentRegion)
     }
     
@@ -35,6 +50,32 @@ class MapViewModel: NSObject, ObservableObject {
 
 extension MapViewModel: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-        print(annotation.title, annotation.coordinate)
+        print(annotation.title as Any, annotation.coordinate)
+    }
+    
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "custom")
+        
+        if annotation === mapView.userLocation {
+            annotationView?.annotation = annotation
+            return annotationView
+        }
+        
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "custom")
+        } else {
+            annotationView?.annotation = annotation
+        }
+//        annotationView?.image = UIImage(systemName: "mappin.and.ellipse")?.withTintColor(.red)
+
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.systemBlue
+        renderer.lineWidth = 10
+        return renderer
     }
 }

@@ -12,6 +12,7 @@ struct MapView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var viewModel = MapViewModel()
     @State var region: MKCoordinateRegion?
+    @StateObject var commonViewModel: CommonViewModel
     
     var body: some View {
         VStack {
@@ -28,6 +29,7 @@ struct MapView: View {
         }
         .onAppear {
             viewModel.setCenter(region)
+            commonViewModel.isBackButtonHidden = true
         }
         .navigationBarHidden(true)
     }
