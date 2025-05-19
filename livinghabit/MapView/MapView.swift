@@ -20,12 +20,18 @@ struct MapView: View {
                 .ignoresSafeArea()
         }
         .overlay {
-            Button {
-                self.presentationMode.wrappedValue.dismiss()
-            } label: {
-                Image("talk_close")
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        self.presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image("talk_close")
+                    }
+                }
+                Spacer()
             }
-            .position(x: 15, y: 15)
+            .padding()
         }
         .onAppear {
             viewModel.setCenter(region)

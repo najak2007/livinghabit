@@ -67,6 +67,7 @@ struct ToDoListView: View {
                 }
                 showingCustomAlert = false
             })
+            
         }
     }
     

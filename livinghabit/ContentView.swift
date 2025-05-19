@@ -26,6 +26,13 @@ struct ContentView: View {
     @StateObject var weatherServiceManager = WeatherServiceManager()
     @StateObject var commonViewModel: CommonViewModel = .init()
     
+    
+    @State private var isToDoListFlag: Bool = false
+    @State private var isFinishListFlag: Bool = false
+    @State private var isEatListFlag: Bool = false
+    @State private var isHealthListFlag: Bool = false
+    @State private var isMapFlag: Bool = false
+    
     private var today = Date()
 
     
@@ -41,14 +48,6 @@ struct ContentView: View {
         VStack(spacing: 20) {
             VStack {
                 HStack {
-                    Button(action: {
-                        //date = Date()
-                    }, label: {
-                        Image(colorScheme == .dark ? "btn_back_w_prs" : "btn_back_b_prs")
-                            .opacity(commonViewModel.isBackButtonHidden ? 0 : 1)
-                    })
-                    .padding(.leading, -20)
-                    
                     Spacer()
                     
                     Button(action: {
@@ -85,7 +84,66 @@ struct ContentView: View {
                 
             }
             .padding(.horizontal, 20)
-            
+        
+#if true
+            List {
+                Button(action: {
+                    self.isToDoListFlag.toggle()
+                }, label: {
+                    Text("☑️ 할 일")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                
+                Button(action: {
+                    self.isFinishListFlag.toggle()
+                }, label: {
+                    Text("✅ 한 일")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                
+                Button(action: {
+                    self.isEatListFlag.toggle()
+                }, label: {
+                    Text("🥙 식단")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+
+                })
+                
+                Button(action: {
+                    self.isHealthListFlag.toggle()
+                }, label: {
+                    Text("🏃‍♂️‍➡️ 운동")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .onChange(of: scenePhase) { oldPhase, newPhase in
+                            print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                            if newPhase == .active, oldPhase == .inactive {
+                                currentRegion()
+                            }
+                        }
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                
+                Button(action: {
+                    self.isMapFlag.toggle()
+                }, label: {
+                    Text("🗺️ 지도")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .onChange(of: scenePhase) { oldPhase, newPhase in
+                            print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                            if newPhase == .active, oldPhase == .inactive {
+                                currentRegion()
+                            }
+                        }
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                .fullScreenCover(isPresented: $isMapFlag) {
+                    MapView(region: region, commonViewModel: commonViewModel)
+                }
+            }.environment(\.defaultMinListRowHeight, 70)
+#else
             NavigationView {
                 List {
                     NavigationLink(destination: ToDoListView()) {
@@ -124,7 +182,7 @@ struct ContentView: View {
                                 }
                             }
                     }
-#if false
+#if __TRANSKATE_VIEW__
                     NavigationLink(destination: TranslateEXView()) {
                         Text("번역 예정")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
@@ -172,6 +230,7 @@ struct ContentView: View {
 #endif
                 }.environment(\.defaultMinListRowHeight, 70)
             }
+#endif          /* NavigationView End */
         }
         .task() {
             currentRegion()
