@@ -94,6 +94,9 @@ struct ContentView: View {
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
+                .fullScreenCover(isPresented: $isToDoListFlag) {
+                    ToDoListView()
+                }
                 
                 Button(action: {
                     self.isFinishListFlag.toggle()
@@ -102,6 +105,9 @@ struct ContentView: View {
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
+                .fullScreenCover(isPresented: $isFinishListFlag) {
+                    Text("한일 ㅋㅋㅋ")
+                }
                 
                 Button(action: {
                     self.isEatListFlag.toggle()
@@ -110,20 +116,6 @@ struct ContentView: View {
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
 
-                })
-                
-                Button(action: {
-                    self.isHealthListFlag.toggle()
-                }, label: {
-                    Text("🏃‍♂️‍➡️ 운동")
-                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                        .onChange(of: scenePhase) { oldPhase, newPhase in
-                            print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
-                            if newPhase == .active, oldPhase == .inactive {
-                                currentRegion()
-                            }
-                        }
-                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
                 
                 Button(action: {
