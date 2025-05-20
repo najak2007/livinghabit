@@ -10,9 +10,10 @@ import MapKit
 
 struct MapView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @StateObject var viewModel = MapViewModel()
+    @ObservedObject var viewModel = MapViewModel()
     @State var region: MKCoordinateRegion?
     @StateObject var commonViewModel: CommonViewModel
+//    @ObservedObject var vm = MapViewModel()
     
     var body: some View {
         VStack {
@@ -30,6 +31,11 @@ struct MapView: View {
                     }
                 }
                 Spacer()
+                
+                Text("\(viewModel.userLatitude), \(viewModel.userLongitude)")
+                    .onAppear {
+                        viewModel.startUpdatingLocation()
+                    }
             }
             .padding()
         }

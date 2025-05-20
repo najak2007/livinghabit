@@ -7,10 +7,18 @@
 
 import Foundation
 import MapKit
+import CoreLocation
 
 class MapViewModel: NSObject, ObservableObject {
     let mapView = MKMapView()
     var region: MKCoordinateRegion?
+    
+    private let locationManager = CLLocationManager()
+    
+    @Published var userLatitude: Double = 0
+    @Published var userLongitude: Double = 0
+    
+    @Published var errorMessage: String?
     
     override init() {
         super.init()
@@ -77,5 +85,18 @@ extension MapViewModel: MKMapViewDelegate {
         renderer.strokeColor = UIColor.systemBlue
         renderer.lineWidth = 10
         return renderer
+    }
+}
+
+extension MapViewModel: CLLocationManagerDelegate {
+    func startUpdatingLocation() {
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+
+        userLatitude = location.coordinate.latitude
+        userLongitude = location.coordinate.longitude
     }
 }
