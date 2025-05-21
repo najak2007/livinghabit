@@ -26,6 +26,10 @@ class MapViewModel: NSObject, ObservableObject {
 #if false       /* true : map 의 위치 조정이 안된다. */
         mapView.isUserInteractionEnabled = false
 #endif
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
         addGestureRecognizer()
     }
 
