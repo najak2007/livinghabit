@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 class LocationInfoData: Object {
+    @objc dynamic var id: String = ""
     @objc dynamic var latitude: Double = 0
     @objc dynamic var longitude: Double = 0
     @objc dynamic var address: String = ""
@@ -22,7 +23,6 @@ final class ToDoListData: Object {
     @objc dynamic var isDone: Bool = false
     @objc dynamic var date: Date = Date()
 }
-
 
 final class HourWeatherData: Object {
     @objc dynamic var id: String = ""
