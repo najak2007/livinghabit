@@ -8,17 +8,20 @@
 import Foundation
 import MapKit
 import CoreLocation
+import RealmSwift
 
 class MapViewModel: NSObject, ObservableObject {
     let mapView = MKMapView()
     var region: MKCoordinateRegion?
     
     private let locationManager = CLLocationManager()
+    private var realm: Realm?
     
     @Published var userLatitude: Double = 0
     @Published var userLongitude: Double = 0
     
     @Published var errorMessage: String?
+    @Published var locationInfoDatas: [LocationInfoData] = []
     
     override init() {
         super.init()
@@ -27,11 +30,22 @@ class MapViewModel: NSObject, ObservableObject {
         mapView.isUserInteractionEnabled = false
 #endif
         locationManager.requestWhenInUseAuthorization()
+
         locationManager.allowsBackgroundLocationUpdates = true          // 백그라운드 업데이트 활성화
+        locationManager.pausesLocationUpdatesAutomatically = false
+        
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         addGestureRecognizer()
+        
+        do {
+            realm = try Realm()
+            fetchToLocations()
+        } catch {
+            print("Error initializing Realm: \(error)")
+        }
     }
 
     private func addGestureRecognizer() {
@@ -59,6 +73,26 @@ class MapViewModel: NSObject, ObservableObject {
         annotation.coordinate = CLLocationCoordinate2D(latitude: region.center.latitude, longitude: region.center.longitude)
         mapView.addAnnotation(annotation)
     }
+    
+    func fetchToLocations() {
+        guard let realm = realm else { return }
+        let results = realm.objects(LocationInfoData.self)
+        
+    }
+    
+    func saveToLocation(_ location: LocationInfoData) {
+        guard let realm = realm else { return }
+        
+        do {
+            try realm.write {
+                realm.add(location)
+                fetchToLocations()
+            }
+        } catch {
+            print("Error saving Location: \(error)")
+        }
+    }
+    
 }
 
 extension MapViewModel: MKMapViewDelegate {
@@ -103,5 +137,20 @@ extension MapViewModel: CLLocationManagerDelegate {
 
         userLatitude = location.coordinate.latitude
         userLongitude = location.coordinate.longitude
+        
+        let locationData = LocationInfoData()
+        locationData.id = getToLocationID()
+        locationData.latitude = userLatitude
+        locationData.longitude = userLongitude
+        locationData.date = Date()
+        
+    }
+    
+    func getToLocationID() -> String {
+        let date: Date = Date()
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        let nowID: String = dateFormatter.string(from: date)
+        return nowID
     }
 }
