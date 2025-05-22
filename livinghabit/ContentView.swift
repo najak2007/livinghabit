@@ -121,7 +121,7 @@ struct ContentView: View {
                 Button(action: {
                     self.isMapFlag.toggle()
                 }, label: {
-                    Text("🗺️ 지도")
+                    Text("🏃‍♂️‍➡️ 운동")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                         .onChange(of: scenePhase) { oldPhase, newPhase in
                             print("oldPhase = \(oldPhase), newPhase = \(newPhase)")

@@ -27,6 +27,7 @@ class MapViewModel: NSObject, ObservableObject {
         mapView.isUserInteractionEnabled = false
 #endif
         locationManager.requestWhenInUseAuthorization()
+        locationManager.allowsBackgroundLocationUpdates = true          // 백그라운드 업데이트 활성화
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
