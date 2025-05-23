@@ -77,7 +77,7 @@ class MapViewModel: NSObject, ObservableObject {
     func fetchToLocations() {
         guard let realm = realm else { return }
         let results = realm.objects(LocationInfoData.self)
-        
+        locationInfoDatas = Array((results))
     }
     
     func saveToLocation(_ location: LocationInfoData) {

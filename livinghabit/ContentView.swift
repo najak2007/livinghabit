@@ -22,7 +22,7 @@ struct ContentView: View {
     @State private var location: CLLocationCoordinate2D?
     @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     
-    @StateObject var locationManager = LocationManager()
+ //   @StateObject var locationManager = LocationManager()
     @StateObject var weatherServiceManager = WeatherServiceManager()
     @StateObject var commonViewModel: CommonViewModel = .init()
     
@@ -106,7 +106,7 @@ struct ContentView: View {
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
                 .fullScreenCover(isPresented: $isFinishListFlag) {
-                    Text("한일 ㅋㅋㅋ")
+                    FinishingListView()
                 }
                 
                 Button(action: {
@@ -132,7 +132,7 @@ struct ContentView: View {
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
                 .fullScreenCover(isPresented: $isMapFlag) {
-                    MapView(region: region, commonViewModel: commonViewModel)
+                    MapView()
                 }
             }.environment(\.defaultMinListRowHeight, 70)
 #else
@@ -225,12 +225,12 @@ struct ContentView: View {
 #endif          /* NavigationView End */
         }
         .task() {
-            currentRegion()
+//            currentRegion()
         }
     }
     
     private func currentRegion() {
-        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
+//        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     }
     
 //    func startPermissionTask() async {
