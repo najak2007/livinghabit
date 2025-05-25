@@ -14,16 +14,24 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     
     @StateObject private var timeViewModel = TimeViewModel()
+    
     @State private var isShowCalendar: Bool = false
     @State private var date = Date()
     @State private var latitude: Double?
     @State private var longitude: Double?
     @State private var location: CLLocationCoordinate2D?
-    @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+    @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     
-    @StateObject var locationManager = LocationManager()
+ //   @StateObject var locationManager = LocationManager()
     @StateObject var weatherServiceManager = WeatherServiceManager()
+    @StateObject var commonViewModel: CommonViewModel = .init()
     
+    
+    @State private var isToDoListFlag: Bool = false
+    @State private var isFinishListFlag: Bool = false
+    @State private var isEatListFlag: Bool = false
+    @State private var isHealthListFlag: Bool = false
+    @State private var isMapFlag: Bool = false
     
     private var today = Date()
 
@@ -40,13 +48,6 @@ struct ContentView: View {
         VStack(spacing: 20) {
             VStack {
                 HStack {
-                    Button(action: {
-                        date = Date()
-                    }, label: {
-                        Text(Date().dateCompare(fromDate: date) == "S" ? "" : "오늘")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: Date().dateCompare(fromDate: date) == "S" ? 0 : 15 ))
-                    })
-                    
                     Spacer()
                     
                     Button(action: {
@@ -62,6 +63,13 @@ struct ContentView: View {
                     })
                     
                     Spacer()
+                    
+                    Button(action: {
+                        date = Date()
+                    }, label: {
+                        Text(Date().dateCompare(fromDate: date) == "S" ? "" : "오늘")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: Date().dateCompare(fromDate: date) == "S" ? 0 : 15 ))
+                    })
                 }
             }
             .overlay {
@@ -76,7 +84,58 @@ struct ContentView: View {
                 
             }
             .padding(.horizontal, 20)
-            
+        
+#if true
+            List {
+                Button(action: {
+                    self.isToDoListFlag.toggle()
+                }, label: {
+                    Text("☑️ 할 일")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                .fullScreenCover(isPresented: $isToDoListFlag) {
+                    ToDoListView()
+                }
+                
+                Button(action: {
+                    self.isFinishListFlag.toggle()
+                }, label: {
+                    Text("✅ 한 일")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                .fullScreenCover(isPresented: $isFinishListFlag) {
+                    FinishingListView()
+                }
+                
+                Button(action: {
+                    self.isEatListFlag.toggle()
+                }, label: {
+                    Text("🥙 식단")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+
+                })
+                
+                Button(action: {
+                    self.isMapFlag.toggle()
+                }, label: {
+                    Text("🏃‍♂️‍➡️ 운동")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .onChange(of: scenePhase) { oldPhase, newPhase in
+                            print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                            if newPhase == .active, oldPhase == .inactive {
+                                currentRegion()
+                            }
+                        }
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                .fullScreenCover(isPresented: $isMapFlag) {
+                    MapView()
+                }
+            }.environment(\.defaultMinListRowHeight, 70)
+#else
             NavigationView {
                 List {
                     NavigationLink(destination: ToDoListView()) {
@@ -104,7 +163,18 @@ struct ContentView: View {
                                 }
                             }
                     }
-#if false
+                    
+                    NavigationLink(destination: MapView(region: region, commonViewModel: commonViewModel)) {
+                        Text("🗺️ 지도")
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                            .onChange(of: scenePhase) { oldPhase, newPhase in
+                                print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
+                                if newPhase == .active, oldPhase == .inactive {
+                                    currentRegion()
+                                }
+                            }
+                    }
+#if __TRANSKATE_VIEW__
                     NavigationLink(destination: TranslateEXView()) {
                         Text("번역 예정")
                             .font(.custom("AppleSDGothicNeo-Medium", size: 19))
@@ -152,14 +222,15 @@ struct ContentView: View {
 #endif
                 }.environment(\.defaultMinListRowHeight, 70)
             }
+#endif          /* NavigationView End */
         }
         .task() {
-            currentRegion()
+//            currentRegion()
         }
     }
     
     private func currentRegion() {
-        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+//        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.location?.latitude ?? 37.5666791, longitude: locationManager.location?.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     }
     
 //    func startPermissionTask() async {
@@ -192,6 +263,3 @@ struct ContentView: View {
 }
 
 
-#Preview {
-    ContentView()
-}

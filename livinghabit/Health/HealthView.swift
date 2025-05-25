@@ -29,6 +29,7 @@ struct HealthView: View {
             Map(
                 coordinateRegion: $region,
                 showsUserLocation: true,
+//                userTrackingMode: .constant(.follow),
 //                annotationItems: [MapLocation(name: "", latitude: region.center.latitude, longitude: region.center.longitude)],
 //                annotationContent: { location in
 //                    MapPin(coordinate: location.coordinate, tint: .red)
@@ -41,7 +42,7 @@ struct HealthView: View {
             } label: {
                 Image("talk_close")
             }
-            .position(x: 30, y: 30)
+            .position(x: 20, y: 20)
         }
         .navigationBarHidden(true)
     }
