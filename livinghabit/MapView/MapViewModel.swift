@@ -60,9 +60,13 @@ class MapViewModel: NSObject, ObservableObject {
     }
     
     func setCenter(_ currentRegion: MKCoordinateRegion? = nil) {
-        guard var region = currentRegion else { return }
-        region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        mapView.setRegion(region, animated: true)
+        var region = currentRegion
+        if region == nil {
+            region = self.currentRegion()
+        }
+        
+        region!.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        mapView.setRegion(region!, animated: true)
         mapView.showsUserLocation = true
         addAnnotation(currentRegion)
     }
@@ -91,6 +95,12 @@ class MapViewModel: NSObject, ObservableObject {
         } catch {
             print("Error saving Location: \(error)")
         }
+    }
+    
+    private func currentRegion() -> MKCoordinateRegion {
+        return MKCoordinateRegion(center: CLLocationCoordinate2D(
+            latitude: locationManager.location?.coordinate.latitude ?? 37.5666791,
+            longitude: locationManager.location?.coordinate.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     }
     
 }
@@ -143,6 +153,8 @@ extension MapViewModel: CLLocationManagerDelegate {
         locationData.latitude = userLatitude
         locationData.longitude = userLongitude
         locationData.date = Date()
+        
+        self.saveToLocation(locationData)
         
     }
     
