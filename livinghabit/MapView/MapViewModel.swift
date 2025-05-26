@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 import CoreLocation
 import RealmSwift
+import SwiftUI
 
 class MapViewModel: NSObject, ObservableObject {
     let mapView = MKMapView()
@@ -98,6 +99,10 @@ class MapViewModel: NSObject, ObservableObject {
     }
     
     private func currentRegion() -> MKCoordinateRegion {
+        
+        userLatitude = locationManager.location?.coordinate.latitude ?? 37.5666791
+        userLongitude = locationManager.location?.coordinate.longitude ?? 126.9782914
+        
         return MKCoordinateRegion(center: CLLocationCoordinate2D(
             latitude: locationManager.location?.coordinate.latitude ?? 37.5666791,
             longitude: locationManager.location?.coordinate.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
@@ -145,17 +150,21 @@ extension MapViewModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
 
-        userLatitude = location.coordinate.latitude
-        userLongitude = location.coordinate.longitude
+        let oldLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
+        let newLocation = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
-        let locationData = LocationInfoData()
-        locationData.id = getToLocationID()
-        locationData.latitude = userLatitude
-        locationData.longitude = userLongitude
-        locationData.date = Date()
+        let distance = oldLocation.distance(from: newLocation)
         
-        self.saveToLocation(locationData)
-        
+        if distance > 10 {
+            userLatitude = location.coordinate.latitude
+            userLongitude = location.coordinate.longitude
+            let locationData = LocationInfoData()
+            locationData.id = getToLocationID()
+            locationData.latitude = userLatitude
+            locationData.longitude = userLongitude
+            locationData.date = Date()
+            self.saveToLocation(locationData)
+        }
     }
     
     func getToLocationID() -> String {
