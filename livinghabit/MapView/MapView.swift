@@ -10,6 +10,7 @@ import MapKit
 
 struct MapView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.scenePhase) var scenePhase
     
     @ObservedObject var viewModel = MapViewModel()
     @State var region: MKCoordinateRegion?
@@ -37,6 +38,11 @@ struct MapView: View {
         }
         .onAppear {
             viewModel.setCenter(region)
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active, oldPhase == .inactive {
+                viewModel.setCenter(region)
+            }
         }
         .navigationBarHidden(true)
     }
