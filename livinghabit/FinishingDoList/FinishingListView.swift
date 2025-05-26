@@ -11,11 +11,15 @@ import RealmSwift
 struct FinishingListView: View {
     @ObservedObject private var viewModel = FinishingViewModel()
     
+    @ObservedObject private var mv = MapViewModel()
+    
     var body: some View {
         VStack(spacing: 20) {
             List {
-                ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
-                    
+                ForEach(mv.locationInfoDatas, id: \.id) { locationListData in
+                    VStack(alignment: .leading) {
+                        Text("Date \(locationListData.date.yyyyMMdd) 위도 = \(locationListData.latitude) 경도 = \(locationListData.longitude)")
+                    }
                 }
             }
         }
