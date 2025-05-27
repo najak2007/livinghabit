@@ -24,6 +24,8 @@ class MapViewModel: NSObject, ObservableObject {
     @Published var errorMessage: String?
     @Published var locationInfoDatas: [LocationInfoData] = []
     
+    let manager = NotificationManager.instance
+    
     override init() {
         super.init()
         mapView.delegate = self
@@ -165,6 +167,15 @@ extension MapViewModel: CLLocationManagerDelegate {
             locationData.date = Date()
             self.saveToLocation(locationData)
         }
+        
+        let homeLocation = CLLocation(latitude: 37.669440, longitude: 126.889480)
+        
+        let homeDistance = oldLocation.distance(from: homeLocation)
+        
+        if homeDistance > 10, homeDistance < 100 {
+            self.manager.scheduleNotification(trigger: .time)
+        }
+        
     }
     
     func getToLocationID() -> String {

@@ -37,11 +37,11 @@ struct MapView: View {
             .padding()
         }
         .onAppear {
-            viewModel.setCenter(region)
+            viewModel.setCenter(nil)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active, oldPhase == .inactive {
-                viewModel.setCenter(region)
+                viewModel.setCenter(nil)
             }
         }
         .navigationBarHidden(true)

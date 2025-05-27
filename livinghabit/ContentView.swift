@@ -35,6 +35,7 @@ struct ContentView: View {
     
     private var today = Date()
 
+    let manager = NotificationManager.instance
     
     let dateformat: DateFormatter = {
         let fmt = DateFormatter()
@@ -111,6 +112,7 @@ struct ContentView: View {
                 
                 Button(action: {
                     self.isEatListFlag.toggle()
+                    manager.scheduleNotification(trigger: .time)
                 }, label: {
                     Text("🥙 식단")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
@@ -223,6 +225,9 @@ struct ContentView: View {
                 }.environment(\.defaultMinListRowHeight, 70)
             }
 #endif          /* NavigationView End */
+        }
+        .onAppear {
+            manager.requestAuthorization()
         }
         .task() {
 //            currentRegion()
