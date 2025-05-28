@@ -17,21 +17,32 @@ struct MapView: View {
     
     var body: some View {
         VStack {
+            HStack {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image("talk_close")
+                })
+                
+                Spacer()
+                
+                Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "mappin.and.ellipse.circle.fill")
+                    .resizable()
+                        .frame(width: 30, height: 30)
+                })
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 0)
+            
             WrapperView(view: viewModel.mapView)
                 .ignoresSafeArea()
         }
         .overlay {
             VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image("talk_close")
-                    }
-                }
                 Spacer()
-                
                 Text("\(viewModel.userLatitude), \(viewModel.userLongitude)")
             }
             .padding()
