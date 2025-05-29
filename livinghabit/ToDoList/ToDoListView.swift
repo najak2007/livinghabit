@@ -9,6 +9,8 @@ import SwiftUI
 import RealmSwift
 
 struct ToDoListView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = ToDoListViewModel()
     @FocusState private var focusedField: Bool
     
@@ -38,7 +40,7 @@ struct ToDoListView: View {
                 .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)
                 .fill(Color.gray.opacity(0.2) ))
             .padding(.horizontal, 10)
-            .padding(.top, 10)
+            .padding(.top, 50)
             
             List {
                 ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
@@ -60,6 +62,33 @@ struct ToDoListView: View {
                 self.endTextEditing()
             }
         }
+        .overlay {
+            VStack {
+                HStack {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image("talk_close")
+                    })
+    
+                    Spacer()
+    
+                    Button(action: {
+    
+                    }, label: {
+                        Image(systemName: "mappin.and.ellipse.circle.fill")
+                            .resizable()
+                            .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                            .frame(width: 30, height: 30)
+                    })
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical , 0)
+                .background(Color.clear)
+
+                Spacer()
+            }
+        }
         .sheet(isPresented: $showingCustomAlert) {
             CustomAlertView(toDoList: $editedToDoList, onSave: { isResult in
                 if isResult, let selectedToDoListData = selectedToDoListData {
@@ -67,7 +96,7 @@ struct ToDoListView: View {
                 }
                 showingCustomAlert = false
             })
-            
+            .clearModalBackground()
         }
     }
     
@@ -79,6 +108,8 @@ struct ToDoListView: View {
         return nowID
     }
 }
+
+
 
 struct CustomAlertView: View {
     @Binding var toDoList: String
@@ -110,11 +141,8 @@ struct CustomAlertView: View {
         .cornerRadius(20)
         .shadow(radius: 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+//        .background(Color.black.opacity(0.1).edgesIgnoringSafeArea(.all))
+        .background(Color.clear.edgesIgnoringSafeArea(.all))
     }
 }
 
-#Preview {
-    ToDoListView()
-        
-}

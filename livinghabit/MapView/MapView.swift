@@ -10,6 +10,7 @@ import MapKit
 
 struct MapView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) var scenePhase
     
     @ObservedObject var viewModel = MapViewModel()
@@ -23,25 +24,38 @@ struct MapView: View {
         .overlay {
             VStack {
                 HStack {
-                    Spacer()
-                    Button {
+                    Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
-                    } label: {
+                    }, label: {
                         Image("talk_close")
-                    }
+                    })
+    
+                    Spacer()
+    
+                    Button(action: {
+    
+                    }, label: {
+                        Image(systemName: "mappin.and.ellipse.circle.fill")
+                            .resizable()
+                            .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                            .frame(width: 30, height: 30)
+                    })
                 }
+                .padding(.horizontal, 10)
+                .padding(.vertical , 0)
+                .background(Color.clear)
+
                 Spacer()
                 
                 Text("\(viewModel.userLatitude), \(viewModel.userLongitude)")
             }
-            .padding()
         }
         .onAppear {
-            viewModel.setCenter(region)
+            viewModel.setCenter(nil)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active, oldPhase == .inactive {
-                viewModel.setCenter(region)
+                viewModel.setCenter(nil)
             }
         }
         .navigationBarHidden(true)

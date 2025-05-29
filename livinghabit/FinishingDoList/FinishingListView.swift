@@ -18,7 +18,7 @@ struct FinishingListView: View {
             List {
                 ForEach(mv.locationInfoDatas, id: \.id) { locationListData in
                     VStack(alignment: .leading) {
-                        Text("Date \(locationListData.date.yyyyMMdd) 위도 = \(locationListData.latitude) 경도 = \(locationListData.longitude)")
+                        Text("Date \(locationListData.date.yyyyMMddHHmm) 위도 = \(locationListData.latitude) 경도 = \(locationListData.longitude)")
                     }
                 }
             }
