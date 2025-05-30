@@ -20,7 +20,12 @@ struct ToDoListView: View {
     @State private var editedToDoList: String = ""
     
     var body: some View {
-        VStack (spacing: 20) {
+        VStack (spacing: 0) {
+
+            HorizontalListView()
+                .padding(.top, 30)
+
+            
             HStack {
                 TextField("무엇을 할까?", text: $toDoList)
                     .padding()
@@ -40,7 +45,6 @@ struct ToDoListView: View {
                 .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)
                 .fill(Color.gray.opacity(0.2) ))
             .padding(.horizontal, 10)
-            .padding(.top, 50)
             
             List {
                 ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
@@ -72,15 +76,6 @@ struct ToDoListView: View {
                     })
     
                     Spacer()
-    
-                    Button(action: {
-    
-                    }, label: {
-                        Image(systemName: "mappin.and.ellipse.circle.fill")
-                            .resizable()
-                            .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                            .frame(width: 30, height: 30)
-                    })
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical , 0)
@@ -125,24 +120,32 @@ struct CustomAlertView: View {
                 .padding()
             
             HStack {
-                Button("취소") {
+                Button(action : {
                     onSave(false)
-                }
+                }, label: {
+                    Text("취소")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 18))
+                        .foregroundColor(Color(hex: "#000000"))
+                })
+                .frame(minWidth: 0, maxWidth: .infinity)
+                
                 .padding()
                 
-                Button("저장") {
+                Button(action : {
                     onSave(true)
-                }
-                .padding()
+                }, label: {
+                    Text("저장")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 18))
+                        .foregroundColor(Color(hex: "#000000"))
+                })
+                .frame(minWidth: 0, maxWidth: .infinity)
             }
         }
         .padding()
         .background(Color.white)
         .cornerRadius(20)
         .shadow(radius: 10)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(Color.black.opacity(0.1).edgesIgnoringSafeArea(.all))
-        .background(Color.clear.edgesIgnoringSafeArea(.all))
+        .frame(maxWidth: 300, maxHeight: .infinity)
     }
 }
 

@@ -17,6 +17,7 @@ class LocationInfoData: Object {
     @objc dynamic var alias: String = ""
 }
 
+
 final class ToDoListData: Object {
     @objc dynamic var id: String = ""
     @objc dynamic var toDoList: String = ""
