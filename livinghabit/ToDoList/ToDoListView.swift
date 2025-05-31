@@ -9,6 +9,8 @@ import SwiftUI
 import RealmSwift
 
 struct ToDoListView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = ToDoListViewModel()
     @FocusState private var focusedField: Bool
     
@@ -18,7 +20,11 @@ struct ToDoListView: View {
     @State private var editedToDoList: String = ""
     
     var body: some View {
-        VStack (spacing: 20) {
+        VStack (spacing: 0) {
+            
+            HorizontalListView()
+                .padding(.top, 45)
+                .padding(.horizontal, 10)
             HStack {
                 TextField("무엇을 할까?", text: $toDoList)
                     .padding()
@@ -40,15 +46,21 @@ struct ToDoListView: View {
             .padding(.horizontal, 10)
             .padding(.top, 10)
             
+            
             List {
                 ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
                     VStack(alignment: .leading) {
                         Text(ToDoListData.toDoList)
+                            .font(.custom("AppleSDGothicNeo-Medium", size: 18 ))
+                            .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                         Text("\(ToDoListData.date)")
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                            .font(.custom("AppleSDGothicNeo-Regular", size: 15 ))
+                            .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                     }
                     .onTapGesture {
+                        
+                        self.endTextEditing()
+                        
                         selectedToDoListData = ToDoListData
                         editedToDoList = ToDoListData.toDoList
                         showingCustomAlert = true
@@ -56,18 +68,32 @@ struct ToDoListView: View {
                 }
                 .onDelete(perform: viewModel.deleteToDoList)
             }.environment(\.defaultMinListRowHeight, 70)
-            .onTapGesture {
-                self.endTextEditing()
+        }
+        .overlay {
+            VStack {
+                HStack {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image("talk_close")
+                    })
+                    Spacer()
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical , 0)
+                .background(Color.clear)
+
+                Spacer()
             }
         }
         .sheet(isPresented: $showingCustomAlert) {
-            CustomAlertView(toDoList: $editedToDoList, onSave: { isResult in
+            CustomAlertView(toDoList: $editedToDoList, title: "수정", message: "할 일을 입력하세요.", LButtonTitle: "취소", RButtonTitle: "수정", onSave: { isResult in
                 if isResult, let selectedToDoListData = selectedToDoListData {
                     viewModel.updateToDoList(toDoListData: selectedToDoListData, newToDoList: editedToDoList)
                 }
                 showingCustomAlert = false
             })
-            
+            .clearModalBackground()
         }
     }
     
@@ -80,41 +106,53 @@ struct ToDoListView: View {
     }
 }
 
+
+
 struct CustomAlertView: View {
     @Binding var toDoList: String
+    var title: String
+    var message: String
+    var LButtonTitle: String = "취소"
+    var RButtonTitle: String = "수정"
     var onSave: (Bool) -> Void
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("수정")
-                .font(.headline)
+            Text("⌈\(title)⌋")
+                .font(.custom("AppleSDGothicNeo-Bold", size: 25))
+                .foregroundColor(Color(hex: "#000000"))
+                .frame(maxWidth: .infinity, alignment: .leading)
             
-            TextField("할 일을 입력하세요", text: $toDoList)
+            TextField("\(message)", text: $toDoList)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
             HStack {
-                Button("취소") {
+                Button(action: {
                     onSave(false)
-                }
-                .padding()
+                }, label: {
+                    Text("\(LButtonTitle)")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                        .foregroundColor(Color(hex: "#000000"))
+                })
+                .frame(maxWidth: .infinity)
                 
-                Button("저장") {
+                Button(action: {
                     onSave(true)
-                }
-                .padding()
+                }, label: {
+                    Text("\(RButtonTitle)")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                        .foregroundColor(Color(hex: "#000000"))
+                })
+                .frame(maxWidth: .infinity)
             }
         }
         .padding()
         .background(Color.white)
-        .cornerRadius(20)
+        .cornerRadius(15)
         .shadow(radius: 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
-#Preview {
-    ToDoListView()
-        
-}
