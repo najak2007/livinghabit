@@ -8,6 +8,17 @@
 import Foundation
 import RealmSwift
 
+class UserPlaceInfoData: Object {
+    @objc dynamic var id: String = ""
+    @objc dynamic var latitude: Double = 0
+    @objc dynamic var longitude: Double = 0
+    @objc dynamic var address: String = ""
+    @objc dynamic var date: Date = Date()
+    @objc dynamic var alias: String = ""
+    @objc dynamic var isAddLocation: Bool = false
+    @objc dynamic var isSelected: Bool = false
+}
+
 class LocationInfoData: Object {
     @objc dynamic var id: String = ""
     @objc dynamic var latitude: Double = 0
