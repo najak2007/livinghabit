@@ -175,10 +175,14 @@ extension MapViewModel: CLLocationManagerDelegate {
         let isHome = UserDefaults.standard.bool(forKey: "isHome")
         
         if isHome == false {
-            if homeDistance > 10, homeDistance < 100 {
+            if homeDistance > 10, homeDistance < 50 {
                 self.manager.scheduleNotification(trigger: .time)
                 
                 UserDefaults.standard.set(true, forKey: "isHome")
+            }
+        } else {
+            if homeDistance > 80, homeDistance < 100 {
+                UserDefaults.standard.set(false, forKey: "isHome")
             }
         }
         
