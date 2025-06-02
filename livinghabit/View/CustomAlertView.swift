@@ -51,7 +51,7 @@ struct CustomAlertView: View {
         .background(Color.white)
         .cornerRadius(15)
         .shadow(radius: 10)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
     }
 }
