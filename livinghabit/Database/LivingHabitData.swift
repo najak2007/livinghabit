@@ -34,6 +34,7 @@ final class ToDoListData: Object {
     @objc dynamic var toDoList: String = ""
     @objc dynamic var isDone: Bool = false
     @objc dynamic var date: Date = Date()
+    @objc dynamic var placeInfoData: UserPlaceInfoData?
 }
 
 final class HourWeatherData: Object {

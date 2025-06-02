@@ -33,13 +33,13 @@ struct CustomItemView: View {
                     .padding()
                     .font(.custom("AppleSDGothicNeo-Bold", size: 20))
                     .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                    .frame(minWidth: 65, maxHeight: 40)
+                    .frame(minWidth: 70, maxHeight: 40)
             })
         }
         .overlay {
             if locationData.isAddLocation == false  {
                 Text(isSelected == true ? "✅" : "☑️")
-                    .font(.custom("AppleSDGothicNeo-Regular", size: 13))
+                    .font(.custom("AppleSDGothicNeo-Regular", size: 11))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .padding(.top, 4)
                     .padding(.leading, 4)
@@ -52,14 +52,16 @@ struct CustomItemView: View {
 }
 
 struct HorizontalListView: View {
-    private var locationViewModel = LocationViewModel()
-
+    @Binding var locationViewModel: LocationViewModel
+    @Binding var isLocationDataUpdate: Bool
+    
     @State private var locationLists: [UserPlaceInfoData] = []
     
     @State private var addToggle: Bool = false
     @State private var selectedId: String = ""
     @State private var addLocationName: String = ""
     @State private var newLocationName: String = ""
+    
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -91,6 +93,7 @@ struct HorizontalListView: View {
                     locationData.isSelected = false
                     self.locationViewModel.saveLocationList(locationData)
                     locationLists = self.locationViewModel.locationLists
+                    isLocationDataUpdate = true
                 }
                 addToggle = false
             })
