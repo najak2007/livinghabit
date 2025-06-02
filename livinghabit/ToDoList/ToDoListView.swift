@@ -24,7 +24,7 @@ struct ToDoListView: View {
     var body: some View {
         VStack (spacing: 0) {
             HorizontalListView()
-                .padding(.top, 45)
+                .padding(.top, 35)
                 .padding(.horizontal, 10)
             HStack {
                 TextField("무엇을 할까?", text: $toDoList)
@@ -45,7 +45,7 @@ struct ToDoListView: View {
                 .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)
                 .fill(Color.gray.opacity(0.2) ))
             .padding(.horizontal, 10)
-            .padding(.top, 10)
+            .padding(.top, 5)
             
             List {
                 ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in

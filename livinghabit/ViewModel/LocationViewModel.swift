@@ -26,7 +26,7 @@ class LocationViewModel: ObservableObject {
 
         do {
             try realm.write {
-                var savedLocationData = locationList
+                let savedLocationData = locationList
                 if savedLocationData.id.isEmpty {
                     savedLocationData.id = getToDoListDataID()
                 }
@@ -60,6 +60,25 @@ class LocationViewModel: ObservableObject {
             realm.delete(locationList)
         }
         fetchLocationLists()
+    }
+    
+    func selectUpdateLocationList(_ itemId: String) {
+        guard let realm = realm else { return }
+        
+        do {
+            try realm.write {
+                locationLists.forEach { (item) in
+                    if item.id == itemId {
+                        item.isSelected = true
+                    } else {
+                        item.isSelected = false
+                    }
+                }
+                fetchLocationLists()
+            }
+        } catch {
+            
+        }
     }
     
     func fetchLocationLists() {
