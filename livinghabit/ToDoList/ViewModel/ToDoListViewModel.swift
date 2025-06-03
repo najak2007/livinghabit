@@ -48,6 +48,10 @@ class ToDoListViewModel: ObservableObject {
         }
     }
     
+    func moveList(from source: IndexSet, to destination: Int) {
+    //    viewModel.toDoLists.move(fromOffsets: source, toOffset: destination)
+    }
+    
     func updateToDoList(toDoListData: ToDoListData, newToDoList: String) {
         guard let realm = realm else { return }
         

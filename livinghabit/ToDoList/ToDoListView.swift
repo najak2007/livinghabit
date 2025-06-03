@@ -23,6 +23,8 @@ struct ToDoListView: View {
     @State private var editedToDoList: String = ""
     @State private var addToggleState: Bool = false
     @State private var placeSectionHeadList: [UserPlaceInfoData] = []
+    @State private var leftButtonTitle: String = "Menu"
+    @State private var toDoInputText: String = ""
     
     var body: some View {
         VStack (spacing: 0) {
@@ -53,26 +55,33 @@ struct ToDoListView: View {
             
             List {
                 ForEach(placeSectionHeadList, id: \.id) { placeInfoData in
-                    if fecthToSectionData(placeInfoData.alias) == true {
-                        Section(header: Text(placeInfoData.alias)) {
-                            ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
+                    Section(header: ToDoListHeader(headerTitle: placeInfoData.alias)) {
+                        ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
+                            if ToDoListData.id.isEmpty {
+                                ToDoInputView()
+                            } else {
                                 if placeInfoData.alias == ToDoListData.placeInfoData?.alias {
-                                    VStack(alignment: .leading) {
-                                        Text(ToDoListData.toDoList)
-                                            .font(.custom("AppleSDGothicNeo-Medium", size: 18 ))
-                                            .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                                    }
-                                    .onTapGesture {
-                                        self.endTextEditing()
-                                        
-                                        selectedToDoListData = ToDoListData
-                                        editedToDoList = ToDoListData.toDoList
-                                        showingCustomAlert = true
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(ToDoListData.toDoList)
+                                                .font(.custom("AppleSDGothicNeo-Medium", size: 18 ))
+                                                .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                                        }
+                                        .onTapGesture {
+                                            self.endTextEditing()
+                                            
+                                            selectedToDoListData = ToDoListData
+                                            editedToDoList = ToDoListData.toDoList
+                                            showingCustomAlert = true
+                                        }
                                     }
                                 }
                             }
-                            .onDelete(perform: viewModel.deleteToDoList)
                         }
+                        .onDelete(perform: viewModel.deleteToDoList)
+                        .onMove(perform: viewModel.moveList)
+                        
+                        ToDoInputView()
                     }
                 }
             }.environment(\.defaultMinListRowHeight, 70)
@@ -88,7 +97,7 @@ struct ToDoListView: View {
                         Image("talk_close")
                     })
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 15)
                 .padding(.vertical , 0)
                 .background(Color.clear)
 
@@ -114,6 +123,7 @@ struct ToDoListView: View {
         .onAppear {
             placeSectionHeadList = locationViewModel.locationLists
         }
+        .background( Color.clear)
     }
     
     func getToDoListDataID() -> String {
