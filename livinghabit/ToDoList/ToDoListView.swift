@@ -79,6 +79,7 @@ struct ToDoListView: View {
                             }
                         }
                         .onDelete(perform: viewModel.deleteToDoList)
+                        .onMove(perform: viewModel.moveList)
                         
                         ToDoInputView()
                     }
