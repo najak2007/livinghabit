@@ -23,6 +23,8 @@ struct ToDoListView: View {
     @State private var editedToDoList: String = ""
     @State private var addToggleState: Bool = false
     @State private var placeSectionHeadList: [UserPlaceInfoData] = []
+    @State private var leftButtonTitle: String = "Menu"
+    @State private var toDoInputText: String = ""
     
     var body: some View {
         VStack (spacing: 0) {
@@ -53,9 +55,11 @@ struct ToDoListView: View {
             
             List {
                 ForEach(placeSectionHeadList, id: \.id) { placeInfoData in
-                    if fecthToSectionData(placeInfoData.alias) == true {
-                        Section(header: ToDoListHeader(headerTitle: placeInfoData.alias)) {
-                            ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
+                    Section(header: ToDoListHeader(headerTitle: placeInfoData.alias)) {
+                        ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
+                            if ToDoListData.id.isEmpty {
+                                ToDoInputView()
+                            } else {
                                 if placeInfoData.alias == ToDoListData.placeInfoData?.alias {
                                     HStack {
                                         VStack(alignment: .leading) {
@@ -73,8 +77,10 @@ struct ToDoListView: View {
                                     }
                                 }
                             }
-                            .onDelete(perform: viewModel.deleteToDoList)
                         }
+                        .onDelete(perform: viewModel.deleteToDoList)
+                        
+                        ToDoInputView()
                     }
                 }
             }.environment(\.defaultMinListRowHeight, 70)
@@ -82,21 +88,15 @@ struct ToDoListView: View {
         .overlay {
             VStack {
                 HStack {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "gear.circle.fill")
-                    })
-
                     Spacer()
-                    
+
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Image("talk_close")
                     })
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 15)
                 .padding(.vertical , 0)
                 .background(Color.clear)
 
