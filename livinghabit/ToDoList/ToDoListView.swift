@@ -23,58 +23,56 @@ struct ToDoListView: View {
     @State private var editedToDoList: String = ""
     @State private var addToggleState: Bool = false
     @State private var placeSectionHeadList: [UserPlaceInfoData] = []
+    @State private var leftButtonTitle: String = "Menu"
+    @State private var toDoInputText: String = ""
+
     
     var body: some View {
         VStack (spacing: 0) {
             HorizontalListView(locationViewModel: $locationViewModel, isLocationDataUpdate: $isLocationDataUpdate)
                 .padding(.top, 35)
                 .padding(.horizontal, 10)
-            HStack {
-                TextField("무엇을 할까?", text: $toDoList)
-                    .padding()
-                    .focused($focusedField)
-                    .font(.custom("AppleSDGothicNeo-Medium", size: 18))
-                    .frame(height: 45)
-                    .submitLabel(.done)
-                    .onSubmit {
-                        let toDoListData = ToDoListData()
-                        toDoListData.toDoList = self.toDoList
-                        toDoListData.id = self.getToDoListDataID()
-                        toDoListData.placeInfoData = fetchToSelectedPlaceData()
-                        viewModel.saveToDoList(toDoListData)
-                        toDoList = ""
-                    }
-            }
-            .background(RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)
-                .fill(Color.gray.opacity(0.2) ))
-            .padding(.horizontal, 10)
-            .padding(.top, 5)
             
             List {
                 ForEach(placeSectionHeadList, id: \.id) { placeInfoData in
-                    if fecthToSectionData(placeInfoData.alias) == true {
-                        Section(header: ToDoListHeader(headerTitle: placeInfoData.alias)) {
-                            ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
-                                if placeInfoData.alias == ToDoListData.placeInfoData?.alias {
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text(ToDoListData.toDoList)
-                                                .font(.custom("AppleSDGothicNeo-Medium", size: 18 ))
-                                                .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                                        }
-                                        .onTapGesture {
-                                            self.endTextEditing()
-                                            
-                                            selectedToDoListData = ToDoListData
-                                            editedToDoList = ToDoListData.toDoList
-                                            showingCustomAlert = true
-                                        }
+                    Section(header: ToDoListHeader(headerTitle: placeInfoData.alias)) {
+                        ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
+                            if placeInfoData.id == ToDoListData.placeInfoData?.id {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        ToDoInputView(inputText: ToDoListData.toDoList, originalText: ToDoListData.toDoList, inputHandler: { inputText in
+                                            if !inputText.isEmpty {
+                                                //let toDoListData = ToDoListData
+                                                //toDoListData.toDoList = inputText
+                                                viewModel.updateToDoList(toDoListData: ToDoListData, newToDoList: inputText)
+                                            }
+                                        }, selectHandler: { isSelected in
+                                            //let toDoLstData = ToDoListData
+                                            //toDoListData.isDone = isSelected
+                                            viewModel.updateToDoListStatus(toDoListData: ToDoListData, isDone: isSelected)
+                                        })
+                                    }
+                                    .onTapGesture {
+                                        self.endTextEditing()
+                                        
+                                        selectedToDoListData = ToDoListData
+                                        editedToDoList = ToDoListData.toDoList
+                                        showingCustomAlert = true
                                     }
                                 }
                             }
-                            .onDelete(perform: viewModel.deleteToDoList)
                         }
+                        .onDelete(perform: viewModel.deleteToDoList)
+                        .onMove(perform: viewModel.moveList)
+                        
+                        ToDoInputView(inputHandler: { inputText in
+                            if !inputText.isEmpty {
+                                let toDoListData = ToDoListData()
+                                toDoListData.toDoList = inputText
+                                toDoListData.placeInfoData = fetchToSelectedPlaceData()
+                                viewModel.saveToDoList(toDoListData)
+                            }
+                        })
                     }
                 }
             }.environment(\.defaultMinListRowHeight, 70)
@@ -82,21 +80,15 @@ struct ToDoListView: View {
         .overlay {
             VStack {
                 HStack {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "gear.circle.fill")
-                    })
-
                     Spacer()
-                    
+
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Image("talk_close")
                     })
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 15)
                 .padding(.vertical , 0)
                 .background(Color.clear)
 
@@ -123,14 +115,6 @@ struct ToDoListView: View {
             placeSectionHeadList = locationViewModel.locationLists
         }
         .background( Color.clear)
-    }
-    
-    func getToDoListDataID() -> String {
-        let date: Date = Date()
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmmss"
-        let nowID: String = dateFormatter.string(from: date)
-        return nowID
     }
     
     func fecthToSectionData(_ sectionName: String) -> Bool {

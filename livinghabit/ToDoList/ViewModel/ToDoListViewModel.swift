@@ -26,6 +26,10 @@ class ToDoListViewModel: ObservableObject {
         
         do {
             try realm.write {
+                if toDoList.id.isEmpty {
+                    toDoList.id = self.getToDoListDataID()
+                }
+                
                 realm.add(toDoList)
                 fetchToDoLists()
             }
@@ -48,12 +52,24 @@ class ToDoListViewModel: ObservableObject {
         }
     }
     
+    func moveList(from source: IndexSet, to destination: Int) {
+    //    viewModel.toDoLists.move(fromOffsets: source, toOffset: destination)
+    }
+    
     func updateToDoList(toDoListData: ToDoListData, newToDoList: String) {
         guard let realm = realm else { return }
         
         try! realm.write {
             toDoListData.toDoList = newToDoList
-            toDoListData.date = Date()
+        }
+        fetchToDoLists()
+    }
+    
+    func updateToDoListStatus(toDoListData: ToDoListData, isDone: Bool) {
+        guard let realm = realm else { return }
+        
+        try! realm.write {
+            toDoListData.isDone = isDone
         }
         fetchToDoLists()
     }
@@ -62,5 +78,13 @@ class ToDoListViewModel: ObservableObject {
         guard let realm = realm else { return }
         let results = realm.objects(ToDoListData.self)
         toDoLists = Array(results)
+    }
+    
+    func getToDoListDataID() -> String {
+        let date: Date = Date()
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        let nowID: String = dateFormatter.string(from: date)
+        return nowID
     }
 }
