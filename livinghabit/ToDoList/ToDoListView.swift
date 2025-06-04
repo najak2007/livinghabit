@@ -42,13 +42,9 @@ struct ToDoListView: View {
                                     VStack(alignment: .leading) {
                                         ToDoInputView(inputText: ToDoListData.toDoList, originalText: ToDoListData.toDoList, inputHandler: { inputText in
                                             if !inputText.isEmpty {
-                                                //let toDoListData = ToDoListData
-                                                //toDoListData.toDoList = inputText
                                                 viewModel.updateToDoList(toDoListData: ToDoListData, newToDoList: inputText)
                                             }
                                         }, selectHandler: { isSelected in
-                                            //let toDoLstData = ToDoListData
-                                            //toDoListData.isDone = isSelected
                                             viewModel.updateToDoListStatus(toDoListData: ToDoListData, isDone: isSelected)
                                         })
                                     }
@@ -65,7 +61,7 @@ struct ToDoListView: View {
                         .onDelete(perform: viewModel.deleteToDoList)
                         .onMove(perform: viewModel.moveList)
                         
-                        ToDoInputView(inputHandler: { inputText in
+                        ToDoInputView(inputText: "", originalText: "", inputHandler: { inputText in
                             if !inputText.isEmpty {
                                 let toDoListData = ToDoListData()
                                 toDoListData.toDoList = inputText

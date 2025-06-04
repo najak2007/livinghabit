@@ -18,14 +18,14 @@ struct ToDoInputView: View {
     
     var body: some View {
         HStack {
-            if !inputText.isEmpty {
+            if inputText.isEmpty == false{
                 Button(action: {
                     self.selectHandler?(true)
                 }, label: {
                     Text("⚪️")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 24))
                 })
-            }
+            } 
 
             HStack {
                 TextField("무엇을 할까?", text: $inputText)
@@ -41,7 +41,10 @@ struct ToDoInputView: View {
                         if inputText.isEmpty { return }
                         if inputText == originalText { return }
                         self.inputHandler(self.inputText)
-                        inputText = ""
+                        
+                        if originalText.isEmpty {
+                            self.inputText = ""
+                        }
                     }
             }
             .background(RoundedRectangle(cornerRadius: 10)
