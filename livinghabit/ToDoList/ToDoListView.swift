@@ -25,6 +25,7 @@ struct ToDoListView: View {
     @State private var placeSectionHeadList: [UserPlaceInfoData] = []
     @State private var leftButtonTitle: String = "Menu"
     @State private var toDoInputText: String = ""
+
     
     var body: some View {
         VStack (spacing: 0) {
@@ -39,7 +40,16 @@ struct ToDoListView: View {
                             if placeInfoData.id == ToDoListData.placeInfoData?.id {
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        ToDoInputView(inputText: ToDoListData.toDoList, inputHandler: { inputText in
+                                        ToDoInputView(inputText: ToDoListData.toDoList, originalText: ToDoListData.toDoList, inputHandler: { inputText in
+                                            if !inputText.isEmpty {
+                                                //let toDoListData = ToDoListData
+                                                //toDoListData.toDoList = inputText
+                                                viewModel.updateToDoList(toDoListData: ToDoListData, newToDoList: inputText)
+                                            }
+                                        }, selectHandler: { isSelected in
+                                            //let toDoLstData = ToDoListData
+                                            //toDoListData.isDone = isSelected
+                                            viewModel.updateToDoListStatus(toDoListData: ToDoListData, isDone: isSelected)
                                         })
                                     }
                                     .onTapGesture {

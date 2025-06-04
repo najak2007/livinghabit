@@ -61,7 +61,15 @@ class ToDoListViewModel: ObservableObject {
         
         try! realm.write {
             toDoListData.toDoList = newToDoList
-            toDoListData.date = Date()
+        }
+        fetchToDoLists()
+    }
+    
+    func updateToDoListStatus(toDoListData: ToDoListData, isDone: Bool) {
+        guard let realm = realm else { return }
+        
+        try! realm.write {
+            toDoListData.isDone = isDone
         }
         fetchToDoLists()
     }

@@ -11,14 +11,16 @@ import SwiftUI
 struct ToDoInputView: View {
     
     @State var inputText: String = ""
+    var originalText: String = ""
     @FocusState private var focusedField: Bool
     var inputHandler: (String) -> Void
+    var selectHandler: ((Bool) -> Void)? = nil
     
     var body: some View {
         HStack {
             if !inputText.isEmpty {
                 Button(action: {
-                    
+                    self.selectHandler?(true)
                 }, label: {
                     Text("⚪️")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 24))
@@ -33,6 +35,11 @@ struct ToDoInputView: View {
                     .frame(height: 45)
                     .submitLabel(.done)
                     .onSubmit {
+                        let trimWhiteSpace = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+                        self.inputText = trimWhiteSpace
+                        
+                        if inputText.isEmpty { return }
+                        if inputText == originalText { return }
                         self.inputHandler(self.inputText)
                         inputText = ""
                     }
