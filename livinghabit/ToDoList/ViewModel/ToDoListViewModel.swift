@@ -26,6 +26,10 @@ class ToDoListViewModel: ObservableObject {
         
         do {
             try realm.write {
+                if toDoList.id.isEmpty {
+                    toDoList.id = self.getToDoListDataID()
+                }
+                
                 realm.add(toDoList)
                 fetchToDoLists()
             }
@@ -66,5 +70,13 @@ class ToDoListViewModel: ObservableObject {
         guard let realm = realm else { return }
         let results = realm.objects(ToDoListData.self)
         toDoLists = Array(results)
+    }
+    
+    func getToDoListDataID() -> String {
+        let date: Date = Date()
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        let nowID: String = dateFormatter.string(from: date)
+        return nowID
     }
 }

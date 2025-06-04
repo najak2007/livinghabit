@@ -62,7 +62,7 @@ class LocationViewModel: ObservableObject {
         fetchLocationLists()
     }
     
-    func selectUpdateLocationList(_ itemId: String) {
+    func updateLocationList(_ itemId: String) {
         guard let realm = realm else { return }
         
         do {
