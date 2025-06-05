@@ -76,7 +76,6 @@ struct CustomItemView: View {
 
 struct HorizontalListView: View {
     @Binding var locationViewModel: LocationViewModel
-    @Binding var isLocationDataUpdate: Bool
     
     @State private var locationLists: [UserPlaceInfoData] = []
     
@@ -85,6 +84,7 @@ struct HorizontalListView: View {
     @State private var newLocationName: String = ""
     @State private var editId: String = ""
 
+    var locationUpdateHandler: ((Bool) -> Void)? = nil
     
     
     var body: some View {
@@ -116,7 +116,7 @@ struct HorizontalListView: View {
                     locationData.isSelected = false
                     self.locationViewModel.saveLocationList(locationData)
                     locationLists = self.locationViewModel.locationLists
-                    isLocationDataUpdate = true
+                    locationUpdateHandler?(true)
                 }
                 addToggle = false
             })

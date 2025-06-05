@@ -13,7 +13,6 @@ struct ToDoListView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = ToDoListViewModel()
     @State private var locationViewModel = LocationViewModel()
-    @State private var isLocationDataUpdate: Bool = false
     
     @FocusState private var focusedField: Bool
     
@@ -29,7 +28,9 @@ struct ToDoListView: View {
     
     var body: some View {
         VStack (spacing: 0) {
-            HorizontalListView(locationViewModel: $locationViewModel, isLocationDataUpdate: $isLocationDataUpdate)
+            HorizontalListView(locationViewModel: $locationViewModel, locationUpdateHandler: { isUpdate in
+                placeSectionHeadList = locationViewModel.locationLists
+            })
                 .padding(.top, 35)
                 .padding(.horizontal, 10)
             
@@ -65,7 +66,7 @@ struct ToDoListView: View {
                             if !inputText.isEmpty {
                                 let toDoListData = ToDoListData()
                                 toDoListData.toDoList = inputText
-                                toDoListData.placeInfoData = fetchToSelectedPlaceData()
+                                toDoListData.placeInfoData = placeInfoData
                                 viewModel.saveToDoList(toDoListData)
                             }
                         })
@@ -100,13 +101,6 @@ struct ToDoListView: View {
             })
             .clearModalBackground()
         }
-        .task {
-            if isLocationDataUpdate {
-                placeSectionHeadList = locationViewModel.locationLists
-                isLocationDataUpdate = false
-            }
-        }
-        
         .onAppear {
             placeSectionHeadList = locationViewModel.locationLists
         }
