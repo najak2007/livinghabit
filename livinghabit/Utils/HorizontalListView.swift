@@ -13,9 +13,14 @@ struct CustomItemView: View {
     
     var locationData: UserPlaceInfoData
     @Binding var addToggleState: Bool
-//    @Binding var editId: String
-    var updateCompletion: ((UserPlaceInfoData) -> Void)? = nil
+
+    @State private var isLocationEdit: Bool = false
+    @State private var isLocationNameState: Bool = false
+    @State private var selectedUserPlaceInfoData: UserPlaceInfoData?
+    @State private var editedLocationName: String = ""
+    @State private var locationName: String = ""
     
+    var updateCompletion: ((String?) -> Void)? = nil
     
     var body: some View {
         VStack {
@@ -32,34 +37,31 @@ struct CustomItemView: View {
             } else {
                 Menu {
                     Button(action: {
-                        
+                        selectedUserPlaceInfoData = locationData
+                        isLocationEdit.toggle()
                     }, label: {
                         Text("📍 위치")
                           .padding()
-                          .font(.custom("AppleSDGothicNeo-Medium", size: 20))
-                          .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                     })
 
-
                     Button(action: {
-                        
+                        selectedUserPlaceInfoData = locationData
+                        editedLocationName = locationData.alias
+                        isLocationNameState.toggle()
                     }, label: {
                         Text("📝 수정")
                           .padding()
-                          .font(.custom("AppleSDGothicNeo-Medium", size: 20))
-                          .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                     })
                     
                     Button(action: {
-                        
+                        selectedUserPlaceInfoData = locationData
+                        self.updateCompletion?(nil)
                     }, label: {
                         Text("⛔️ 삭제")
                           .padding()
-                          .font(.custom("AppleSDGothicNeo-Medium", size: 20))
-                          .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                     })
                 } label: {
-                    Text(locationData.alias)
+                    Text(locationName)
                         .padding()
                         .font(.custom("AppleSDGothicNeo-Medium", size: 20))
                         .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
@@ -67,6 +69,21 @@ struct CustomItemView: View {
                 }
 
             }
+        }
+        .sheet(isPresented: $isLocationNameState) {
+            CustomAlertView(originalStr: $editedLocationName, title: "수정", message: "장소 입력해 주세요.", LButtonTitle: "취소", RButtonTitle: "수정", onSave: { result in
+                if result.isEmpty == false {
+                    self.updateCompletion?(result)
+                }
+                isLocationNameState = false
+            })
+            .clearModalBackground()
+        }
+        .fullScreenCover(isPresented: $isLocationEdit, content: {
+            
+        })
+        .onAppear {
+            self.locationName = locationData.alias
         }
         .background(Color.gray.opacity(0.3))
         .cornerRadius(10)
@@ -86,13 +103,20 @@ struct HorizontalListView: View {
 
     var locationUpdateHandler: ((Bool) -> Void)? = nil
     
-    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(locationLists, id: \.self) { locationData in
-                    CustomItemView(locationData: locationData, addToggleState: $addToggle, updateCompletion: { userPlaceInfoData in
-                        
+                    CustomItemView(locationData: locationData, addToggleState: $addToggle, updateCompletion: { updateStr in
+                        guard let updateAlias = updateStr else {
+                            self.locationViewModel.deleteLocationList(locationData)
+                            locationLists = locationViewModel.locationLists
+                            locationUpdateHandler?(true)
+                            return
+                        }
+                        self.locationViewModel.updateLocationForAlias(locationData, editAlias: updateAlias)
+                        locationLists = locationViewModel.locationLists
+                        locationUpdateHandler?(true)
                     })
                 }
                 

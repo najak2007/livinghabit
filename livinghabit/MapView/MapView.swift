@@ -15,6 +15,7 @@ struct MapView: View {
     
     @ObservedObject var viewModel = MapViewModel()
     @State var region: MKCoordinateRegion?
+    var isSearchTextField: Bool = false
     
     var body: some View {
         VStack {
@@ -29,17 +30,20 @@ struct MapView: View {
                     }, label: {
                         Image("talk_close")
                     })
-    
-                    Spacer()
-    
-                    Button(action: {
-    
-                    }, label: {
-                        Image(systemName: "mappin.and.ellipse.circle.fill")
-                            .resizable()
-                            .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                            .frame(width: 30, height: 30)
-                    })
+                    
+                    if isSearchTextField == false {
+                        Spacer()
+                        Button(action: {
+                            
+                        }, label: {
+                            Image(systemName: "mappin.and.ellipse.circle.fill")
+                                .resizable()
+                                .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                                .frame(width: 30, height: 30)
+                        })
+                    } else {
+                        
+                    }
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical , 0)
