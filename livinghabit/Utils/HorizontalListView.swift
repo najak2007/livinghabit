@@ -11,38 +11,61 @@ import SwiftUI
 struct CustomItemView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    
     var locationData: UserPlaceInfoData
-    var isSelected: Bool = false
-    
     @Binding var addToggleState: Bool
-    @Binding var selectedId: String
+//    @Binding var editId: String
+    var updateCompletion: ((UserPlaceInfoData) -> Void)? = nil
+    
     
     var body: some View {
         VStack {
-            Button(action: {
-                if locationData.isAddLocation == true {
+            if locationData.isAddLocation == true {
+                Button(action: {
                     addToggleState.toggle()
-                    return
+                }, label: {
+                    Text(locationData.alias)
+                        .padding()
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                        .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                        .frame(minWidth: 70, maxHeight: 40)
+                })
+            } else {
+                Menu {
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("📍 위치")
+                          .padding()
+                          .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                          .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                    })
+
+
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("📝 수정")
+                          .padding()
+                          .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                          .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                    })
+                    
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("⛔️ 삭제")
+                          .padding()
+                          .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                          .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                    })
+                } label: {
+                    Text(locationData.alias)
+                        .padding()
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 20))
+                        .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                        .frame(minWidth: 70, maxHeight: 40)
                 }
-                if locationData.isSelected == false {
-                    selectedId = locationData.id
-                }
-            }, label: {
-                Text(locationData.alias)
-                    .padding()
-                    .font(.custom("AppleSDGothicNeo-Bold", size: 20))
-                    .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                    .frame(minWidth: 70, maxHeight: 40)
-            })
-        }
-        .overlay {
-            if locationData.isAddLocation == false  {
-                Text(isSelected == true ? "✅" : "☑️")
-                    .font(.custom("AppleSDGothicNeo-Regular", size: 11))
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .padding(.top, 4)
-                    .padding(.leading, 4)
+
             }
         }
         .background(Color.gray.opacity(0.3))
@@ -53,33 +76,33 @@ struct CustomItemView: View {
 
 struct HorizontalListView: View {
     @Binding var locationViewModel: LocationViewModel
-    @Binding var isLocationDataUpdate: Bool
     
     @State private var locationLists: [UserPlaceInfoData] = []
     
     @State private var addToggle: Bool = false
-    @State private var selectedId: String = ""
     @State private var addLocationName: String = ""
     @State private var newLocationName: String = ""
+    @State private var editId: String = ""
+
+    var locationUpdateHandler: ((Bool) -> Void)? = nil
     
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(locationLists, id: \.self) { locationData in
-                    CustomItemView(locationData: locationData, isSelected: locationData.isSelected, addToggleState: $addToggle, selectedId: $selectedId)
+                    CustomItemView(locationData: locationData, addToggleState: $addToggle, updateCompletion: { userPlaceInfoData in
+                        
+                    })
                 }
                 
                 if let locationData = locationViewModel.addUILocationList() {
-                    CustomItemView(locationData: locationData, addToggleState: $addToggle, selectedId: $selectedId)
+                    CustomItemView(locationData: locationData, addToggleState: $addToggle)
                 }
             }
             .padding(.horizontal)
         }
-        .task(id: selectedId) {
-            if selectedId.isEmpty { return }
-            await selecteUpdateLocation(selectedId: selectedId)
-        }
+
         .onAppear {
             locationLists = locationViewModel.locationLists
         }
@@ -93,7 +116,7 @@ struct HorizontalListView: View {
                     locationData.isSelected = false
                     self.locationViewModel.saveLocationList(locationData)
                     locationLists = self.locationViewModel.locationLists
-                    isLocationDataUpdate = true
+                    locationUpdateHandler?(true)
                 }
                 addToggle = false
             })
@@ -101,8 +124,8 @@ struct HorizontalListView: View {
         }
     }
     
-    func selecteUpdateLocation(selectedId: String) async {
-        locationViewModel.selectUpdateLocationList(selectedId)
+    func updateLocation(editId: String) async {
+        locationViewModel.updateLocationList(editId)
         locationLists = locationViewModel.locationLists
     }
 }

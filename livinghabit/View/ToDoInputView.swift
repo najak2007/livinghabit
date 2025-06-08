@@ -11,42 +11,45 @@ import SwiftUI
 struct ToDoInputView: View {
     
     @State var inputText: String = ""
+    var originalText: String = ""
     @FocusState private var focusedField: Bool
+    var inputHandler: (String) -> Void
+    var selectHandler: ((Bool) -> Void)? = nil
     
     var body: some View {
         HStack {
-            Button(action: {
-                
-            }, label: {
-                Text("⚪️")
-                    .font(.custom("AppleSDGothicNeo-Medium", size: 24))
-            })
-            
+            if inputText.isEmpty == false{
+                Button(action: {
+                    self.selectHandler?(true)
+                }, label: {
+                    Text("⚪️")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 24))
+                })
+            } 
+
             HStack {
                 TextField("무엇을 할까?", text: $inputText)
-                    .padding()
+                    .padding(.leading, inputText.isEmpty ? 8 : 2)
                     .focused($focusedField)
                     .font(.custom("AppleSDGothicNeo-Medium", size: 18))
                     .frame(height: 45)
                     .submitLabel(.done)
                     .onSubmit {
-#if true
+                        let trimWhiteSpace = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+                        self.inputText = trimWhiteSpace
                         
-#else
-                        let toDoListData = ToDoListData()
-                        toDoListData.toDoList = self.toDoList
-                        toDoListData.id = self.getToDoListDataID()
-                        toDoListData.placeInfoData = fetchToSelectedPlaceData()
-                        viewModel.saveToDoList(toDoListData)
-                        toDoList = ""
-#endif
+                        if inputText.isEmpty { return }
+                        if inputText == originalText { return }
+                        self.inputHandler(self.inputText)
+                        
+                        if originalText.isEmpty {
+                            self.inputText = ""
+                        }
                     }
             }
             .background(RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)
-                .fill(Color.gray.opacity(0.2) ))
-//            .padding(.horizontal, 10)
-//            .padding(.top, 5)
+                .fill(inputText.isEmpty == false ? Color.clear : Color.gray.opacity(0.2) ))
         }
     }
 }
