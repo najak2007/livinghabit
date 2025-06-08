@@ -80,7 +80,7 @@ struct CustomItemView: View {
             .clearModalBackground()
         }
         .fullScreenCover(isPresented: $isLocationEdit, content: {
-            
+            MapView(isSearchTextField: true)
         })
         .onAppear {
             self.locationName = locationData.alias
