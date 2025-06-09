@@ -26,6 +26,12 @@ struct SearchBar: View {
                 TextField("Search", text: $text)
                     .padding()
                     .cornerRadius(8)
+                    .submitLabel(.search)
+                    .onSubmit {
+                        if let searchHandler = self.searchHandler {
+                            searchHandler()
+                        }
+                    }
                 
                 if !text.isEmpty {
                     Button(action: {
