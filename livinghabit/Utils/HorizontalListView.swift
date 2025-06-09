@@ -67,7 +67,6 @@ struct CustomItemView: View {
                         .foregroundColor(colorScheme == .dark ? Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                         .frame(minWidth: 70, maxHeight: 40)
                 }
-
             }
         }
         .sheet(isPresented: $isLocationNameState) {

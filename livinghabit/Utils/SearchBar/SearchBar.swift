@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct SearchBar: View {
     @Binding var text: String
+    @Binding var placemarkMenu: [CLPlacemark]
+
     
     var searchHandler: (() -> Void)? = nil
     @FocusState private var isFocused: Bool
@@ -35,6 +38,20 @@ struct SearchBar: View {
                         }
                     }
                     .focused($isFocused)
+                
+                if placemarkMenu.count > 0 {
+                    Menu {
+                        ForEach(placemarkMenu, id: \.self) { placemark in
+                            Button(placemark.name ?? "") {
+                                
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.down.circle.fill")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                }
                 
                 if !text.isEmpty {
                     Button(action: {
