@@ -32,6 +32,15 @@ class MapViewModel: NSObject, ObservableObject {
 #if false       /* true : map 의 위치 조정이 안된다. */
         mapView.isUserInteractionEnabled = false
 #endif
+        mapView.showsCompass = true         // 나침반 표시 여부
+        mapView.showsScale = true           // 축척 정보 표시 여부
+        
+        // 사용자의 위치를 추적합니다
+        // follow : 현재 위치를 보여줍니다.
+        // followWithHeading : 핸드폰 방향에 따라 지도를 회전시켜 보여줍니다. (앞에 레이더 포함)
+        mapView.setUserTrackingMode(.follow, animated: true)
+        mapView.setUserTrackingMode(.followWithHeading, animated: true)
+        
         locationManager.requestWhenInUseAuthorization()
 
         locationManager.allowsBackgroundLocationUpdates = true          // 백그라운드 업데이트 활성화
@@ -71,12 +80,12 @@ class MapViewModel: NSObject, ObservableObject {
         region!.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         mapView.setRegion(region!, animated: true)
         mapView.showsUserLocation = true
-        addAnnotation(currentRegion)
     }
     
     func addAnnotation(_ currentRegion: MKCoordinateRegion?) {
         guard let region = currentRegion else { return }
         let annotation = MKPointAnnotation()
+        annotation.title = "Current Location"
         annotation.coordinate = CLLocationCoordinate2D(latitude: region.center.latitude, longitude: region.center.longitude)
         mapView.addAnnotation(annotation)
     }
@@ -100,6 +109,19 @@ class MapViewModel: NSObject, ObservableObject {
         }
     }
     
+    func searchToLocation(coordinate: CLLocationCoordinate2D) {
+        let region: MKCoordinateRegion = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
+        mapView.setRegion(region, animated: true)
+        
+        self.setPinUsingMKPointAnnotation(location: coordinate)
+    }
+
+    private func setPinUsingMKPointAnnotation(location: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        mapView.addAnnotation(annotation)
+    }
+    
     private func currentRegion() -> MKCoordinateRegion {
         
         userLatitude = locationManager.location?.coordinate.latitude ?? 37.5666791
@@ -118,6 +140,7 @@ extension MapViewModel: MKMapViewDelegate {
     }
     
     
+#if false
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "custom")
         
@@ -131,16 +154,23 @@ extension MapViewModel: MKMapViewDelegate {
         } else {
             annotationView?.annotation = annotation
         }
-//        annotationView?.image = UIImage(systemName: "mappin.and.ellipse")?.withTintColor(.red)
+        annotationView?.image = UIImage(systemName: "mappin.and.ellipse")?.withTintColor(.red)
 
         return annotationView
     }
+#endif
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.systemBlue
         renderer.lineWidth = 10
         return renderer
+    }
+    
+    func getCoordinateFromRoadAddress(from address: String) async throws -> CLLocationCoordinate2D {
+        let geocoder = CLGeocoder()
+        let placemark: [CLPlacemark] = try await geocoder.geocodeAddressString(address)
+        return placemark.first?.location?.coordinate ?? CLLocationCoordinate2D()
     }
 }
 

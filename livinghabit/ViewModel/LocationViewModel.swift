@@ -81,6 +81,18 @@ class LocationViewModel: ObservableObject {
         }
     }
     
+    func updateLocationForAlias(_ userPlaceInfoData: UserPlaceInfoData, editAlias: String) {
+        guard let realm = realm else { return }
+        do {
+            try realm.write {
+                userPlaceInfoData.alias = editAlias
+            }
+            fetchLocationLists()
+        } catch {
+            
+        }
+    }
+    
     func fetchLocationLists() {
         guard let realm = realm else { return }
         let results = realm.objects(UserPlaceInfoData.self)
