@@ -100,6 +100,10 @@ class MapViewModel: NSObject, ObservableObject {
         }
     }
     
+    func searchToLocation(coordinate: CLLocationCoordinate2D) {
+        setCenter(MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)))
+    }
+    
     private func currentRegion() -> MKCoordinateRegion {
         
         userLatitude = locationManager.location?.coordinate.latitude ?? 37.5666791
@@ -141,6 +145,12 @@ extension MapViewModel: MKMapViewDelegate {
         renderer.strokeColor = UIColor.systemBlue
         renderer.lineWidth = 10
         return renderer
+    }
+    
+    func getCoordinateFromRoadAddress(from address: String) async throws -> CLLocationCoordinate2D {
+        let geocoder = CLGeocoder()
+        let placemark: [CLPlacemark] = try await geocoder.geocodeAddressString(address)
+        return placemark.first?.location?.coordinate ?? CLLocationCoordinate2D()
     }
 }
 

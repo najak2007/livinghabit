@@ -28,8 +28,8 @@ class ToDoListViewModel: ObservableObject {
             try realm.write {
                 if toDoList.id.isEmpty {
                     toDoList.id = self.getToDoListDataID()
+                    toDoList.orderByIndex = 99
                 }
-                
                 realm.add(toDoList)
                 fetchToDoLists()
             }
@@ -53,7 +53,9 @@ class ToDoListViewModel: ObservableObject {
     }
     
     func moveList(from source: IndexSet, to destination: Int) {
-    //    viewModel.toDoLists.move(fromOffsets: source, toOffset: destination)
+        self.toDoLists.move(fromOffsets: source, toOffset: destination)
+
+        self.updateOrderByIndex()
     }
     
     func updateToDoList(toDoListData: ToDoListData, newToDoList: String) {
@@ -74,10 +76,26 @@ class ToDoListViewModel: ObservableObject {
         fetchToDoLists()
     }
     
+    private func updateOrderByIndex() {
+        guard let realm = realm else { return }
+        
+        do {
+            try realm.write {
+                var orderIndex = 0
+                for toDoListData in self.toDoLists {
+                    toDoListData.orderByIndex = orderIndex
+                    orderIndex += 1
+                }
+            }
+        } catch {
+            
+        }
+    }
+    
     func fetchToDoLists() {
         guard let realm = realm else { return }
         let results = realm.objects(ToDoListData.self)
-        toDoLists = Array(results)
+        toDoLists = Array(results).sorted { $0.orderByIndex < $1.orderByIndex }
     }
     
     func getToDoListDataID() -> String {

@@ -15,6 +15,8 @@ struct MapView: View {
     
     @ObservedObject var viewModel = MapViewModel()
     @State var region: MKCoordinateRegion?
+    @State private var searchText = ""
+    var isSearchTextField: Bool = false
     
     var body: some View {
         VStack {
@@ -29,17 +31,28 @@ struct MapView: View {
                     }, label: {
                         Image("talk_close")
                     })
-    
-                    Spacer()
-    
-                    Button(action: {
-    
-                    }, label: {
-                        Image(systemName: "mappin.and.ellipse.circle.fill")
-                            .resizable()
-                            .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-                            .frame(width: 30, height: 30)
-                    })
+                    
+                    if isSearchTextField == false {
+                        Spacer()
+                        Button(action: {
+                            
+                        }, label: {
+                            Image(systemName: "mappin.and.ellipse.circle.fill")
+                                .resizable()
+                                .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                                .frame(width: 30, height: 30)
+                        })
+                    } else {
+                        SearchBar(text: $searchText, searchHandler: {
+                            if searchText.isEmpty == false {
+                                Task {
+                                    let coordinate = try await viewModel.getCoordinateFromRoadAddress(from: searchText)
+                                    viewModel.searchToLocation(coordinate: coordinate)
+                                }
+                            }
+                        })
+                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+                    }
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical , 0)

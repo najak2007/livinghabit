@@ -29,12 +29,17 @@ class LocationInfoData: Object {
 }
 
 
-final class ToDoListData: Object {
+final class ToDoListData: Object, Comparable {
     @objc dynamic var id: String = ""
     @objc dynamic var toDoList: String = ""
     @objc dynamic var isDone: Bool = false
     @objc dynamic var date: Date = Date()
     @objc dynamic var placeInfoData: UserPlaceInfoData?
+    @objc dynamic var orderByIndex: Int = 0
+    
+    static func < (lhs: ToDoListData, rhs: ToDoListData) -> Bool {
+        return lhs.orderByIndex < rhs.orderByIndex
+    }
 }
 
 final class HourWeatherData: Object {
