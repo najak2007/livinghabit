@@ -167,10 +167,10 @@ extension MapViewModel: MKMapViewDelegate {
         return renderer
     }
     
-    func getCoordinateFromRoadAddress(from address: String) async throws -> CLLocationCoordinate2D {
+    func getCoordinateFromRoadAddress(from address: String) async throws -> [CLPlacemark] {
         let geocoder = CLGeocoder()
         let placemark: [CLPlacemark] = try await geocoder.geocodeAddressString(address)
-        return placemark.first?.location?.coordinate ?? CLLocationCoordinate2D()
+        return placemark
     }
 }
 

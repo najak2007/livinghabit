@@ -16,6 +16,8 @@ struct MapView: View {
     @ObservedObject var viewModel = MapViewModel()
     @State var region: MKCoordinateRegion?
     @State private var searchText = ""
+    @State private var placemarkMenu: [CLPlacemark] = []
+    
     var isSearchTextField: Bool = false
     
     var body: some View {
@@ -43,11 +45,15 @@ struct MapView: View {
                                 .frame(width: 30, height: 30)
                         })
                     } else {
-                        SearchBar(text: $searchText, searchHandler: {
+                        SearchBar(text: $searchText, placemarkMenu: $placemarkMenu, searchHandler: {
                             if searchText.isEmpty == false {
                                 Task {
-                                    let coordinate = try await viewModel.getCoordinateFromRoadAddress(from: searchText)
-                                    viewModel.searchToLocation(coordinate: coordinate)
+                                    let placemarks: [CLPlacemark] = try await viewModel.getCoordinateFromRoadAddress(from: searchText)
+                                    if placemarks.isEmpty == false {
+                                        let coordinate = placemarks.first?.location?.coordinate ?? CLLocationCoordinate2D()
+                                        viewModel.searchToLocation(coordinate: coordinate)
+                                        placemarkMenu = placemarks
+                                    }
                                 }
                             }
                         })
