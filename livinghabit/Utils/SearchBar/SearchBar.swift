@@ -11,6 +11,7 @@ struct SearchBar: View {
     @Binding var text: String
     
     var searchHandler: (() -> Void)? = nil
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         HStack {
@@ -19,6 +20,7 @@ struct SearchBar: View {
                     if let handler = self.searchHandler {
                         handler()
                     }
+                    isFocused = false
                 }) {
                     Image(systemName: "magnifyingglass")
                 }
@@ -32,6 +34,7 @@ struct SearchBar: View {
                             searchHandler()
                         }
                     }
+                    .focused($isFocused)
                 
                 if !text.isEmpty {
                     Button(action: {

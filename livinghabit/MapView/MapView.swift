@@ -72,6 +72,7 @@ struct MapView: View {
             }
         }
         .navigationBarHidden(true)
+        .background(Color.white)
     }
 }
 
