@@ -56,6 +56,7 @@ struct SearchBar: View {
                 if !text.isEmpty {
                     Button(action: {
                         self.text = ""
+                        self.placemarkMenu.removeAll()
                     }) {
                         Image(systemName: "xmark.circle.fill")
                     }
