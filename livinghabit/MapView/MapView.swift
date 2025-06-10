@@ -17,8 +17,11 @@ struct MapView: View {
     @State var region: MKCoordinateRegion?
     @State private var searchText = ""
     @State private var placemarkMenu: [CLPlacemark] = []
+    @State private var showUserPlaceSave: Bool = false
     
-    var isSearchTextField: Bool = false
+    var searchLocationPlace: UserPlaceInfoData? = nil
+    @State private var selectingCoordinate: CLLocationCoordinate2D? = nil
+    var updateLocationDataCompletion: ((UserPlaceInfoData, CLLocationCoordinate2D) -> Void)? = nil
     
     var body: some View {
         VStack {
@@ -34,7 +37,7 @@ struct MapView: View {
                         Image("talk_close")
                     })
                     
-                    if isSearchTextField == false {
+                    if searchLocationPlace == nil {
                         Spacer()
                         Button(action: {
                             
@@ -70,15 +73,39 @@ struct MapView: View {
             }
         }
         .onAppear {
-            viewModel.setCenter(nil)
+            if searchLocationPlace == nil {
+                viewModel.setCenter(nil)
+                viewModel.searchLocationPlace = nil
+            } else {
+                viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true, selectedLocationHandler: { originalUserPlaceInfo, selectedCoordinate in
+                    selectingCoordinate = selectedCoordinate
+                    self.showUserPlaceSave.toggle()
+                })
+                viewModel.searchLocationPlace = searchLocationPlace
+            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active, oldPhase == .inactive {
                 viewModel.setCenter(nil)
             }
         }
+        .sheet(isPresented: $showUserPlaceSave) {
+            ConfirmAlertView(title: searchLocationPlace?.alias ?? "", message: "위치 정보를 저장할까요?", LButtonTitle: "아니오", RButtonTitle: "예", onSave: {
+                isResult in
+                if isResult == true {
+                    guard let updateHandler = updateLocationDataCompletion else { return }
+                    guard let selectingCoordinate = selectingCoordinate else { return }
+                    guard let selectedLocationPlace = searchLocationPlace else { return }
+
+                    updateHandler(selectedLocationPlace, selectingCoordinate)
+
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+                showUserPlaceSave.toggle()
+            })
+            .clearModalBackground()
+        }
         .navigationBarHidden(true)
-        .background(Color.white)
     }
 }
 

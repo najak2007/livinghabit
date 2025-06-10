@@ -93,6 +93,19 @@ class LocationViewModel: ObservableObject {
         }
     }
     
+    func updateLocationForCoordinate(_ userPlaceInfoData: UserPlaceInfoData, editLatitude: Double, editLongitude: Double) {
+        guard let realm = realm else { return }
+        do {
+            try realm.write {
+                userPlaceInfoData.latitude = editLatitude
+                userPlaceInfoData.longitude = editLongitude
+            }
+            fetchLocationLists()
+        } catch {
+            
+        }
+    }
+    
     func fetchLocationLists() {
         guard let realm = realm else { return }
         let results = realm.objects(UserPlaceInfoData.self)

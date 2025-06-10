@@ -1,36 +1,35 @@
 //
-//  CustomAlertView.swift
+//  ConfirmAlertView.swift
 //  livinghabit
 //
-//  Created by najak on 6/2/25.
+//  Created by najak on 6/10/25.
 //
 
 import Foundation
 import SwiftUI
 
-struct CustomAlertView: View {
-    @Binding var originalStr: String
+struct ConfirmAlertView: View {
     var title: String
     var message: String
     var LButtonTitle: String = "취소"
-    var RButtonTitle: String = "수정"
-    var onSave: (String) -> Void
+    var RButtonTitle: String = "확인"
+    var onSave: (Bool) -> Void
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("⌈\(title)⌋")
+            Text("\(title)")
                 .font(.custom("AppleSDGothicNeo-Bold", size: 25))
                 .foregroundColor(Color(hex: "#000000"))
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            TextField("\(message)", text: $originalStr)
-                .font(.custom("AppleSDGothicNeo-Medium", size: 22))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+            Text(message)
+                .font(.custom("AppleSDGothicNeo-Medium", size: 17))
+                .foregroundColor(Color(hex: "#000000"))
+                .frame(maxWidth: .infinity, alignment: .center)
             
             HStack {
                 Button(action: {
-                    onSave("")
+                    onSave(false)
                 }, label: {
                     Text("\(LButtonTitle)")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 20))
@@ -39,7 +38,7 @@ struct CustomAlertView: View {
                 .frame(maxWidth: .infinity)
                 
                 Button(action: {
-                    onSave(originalStr)
+                    onSave(true)
                 }, label: {
                     Text("\(RButtonTitle)")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 20))
@@ -54,5 +53,6 @@ struct CustomAlertView: View {
         .shadow(radius: 10)
         .frame(maxWidth: UIScreen.main.bounds.width - 40, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
+
     }
 }

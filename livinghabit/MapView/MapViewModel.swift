@@ -24,6 +24,9 @@ class MapViewModel: NSObject, ObservableObject {
     @Published var errorMessage: String?
     @Published var locationInfoDatas: [LocationInfoData] = []
     
+    var searchLocationPlace: UserPlaceInfoData? = nil
+    var selectedLocationHandler: ((UserPlaceInfoData?, CLLocationCoordinate2D) -> Void)? = nil
+    
     let manager = NotificationManager.instance
     
     override init() {
@@ -71,7 +74,7 @@ class MapViewModel: NSObject, ObservableObject {
         print("On long tap coordinates: \(coordinate)")
     }
     
-    func setCenter(_ currentRegion: MKCoordinateRegion? = nil) {
+    func setCenter(_ currentRegion: MKCoordinateRegion? = nil, isSearchMode: Bool = false, selectedLocationHandler: ((UserPlaceInfoData?, CLLocationCoordinate2D) -> Void)? = nil) {
         var region = currentRegion
         if region == nil {
             region = self.currentRegion()
@@ -79,13 +82,20 @@ class MapViewModel: NSObject, ObservableObject {
         
         region!.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         mapView.setRegion(region!, animated: true)
-        mapView.showsUserLocation = true
+        
+        if isSearchMode == false {
+            mapView.showsUserLocation = true
+        } else {
+            addAnnotation(region)
+        }
+        
+        self.selectedLocationHandler = selectedLocationHandler
     }
     
     func addAnnotation(_ currentRegion: MKCoordinateRegion?) {
         guard let region = currentRegion else { return }
         let annotation = MKPointAnnotation()
-        annotation.title = "Current Location"
+        annotation.title = searchLocationPlace == nil ? "" : searchLocationPlace?.alias ?? ""
         annotation.coordinate = CLLocationCoordinate2D(latitude: region.center.latitude, longitude: region.center.longitude)
         mapView.addAnnotation(annotation)
     }
@@ -132,11 +142,19 @@ class MapViewModel: NSObject, ObservableObject {
             longitude: locationManager.location?.coordinate.longitude ?? 126.9782914), span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
     }
     
+    private func showAnnotationDetail(annotation: MKAnnotation) {
+        if let annotation = annotation as? OBCustomAnnotation {
+            guard let updateUserPlaceInfoData = searchLocationPlace else { return }
+            self.selectedLocationHandler?(updateUserPlaceInfoData, annotation.coordinate)
+        }
+    }
+    
 }
 
 extension MapViewModel: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-        print(annotation.title as Any, annotation.coordinate)
+        let customAnnotation: OBCustomAnnotation = OBCustomAnnotation(title: searchLocationPlace == nil ? "" : searchLocationPlace?.alias ?? "", subtitle: nil, coordinate: annotation.coordinate)
+        showAnnotationDetail(annotation: customAnnotation)
     }
     
     

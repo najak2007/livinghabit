@@ -30,6 +30,7 @@ struct ContentView: View {
     @State private var isToDoListFlag: Bool = false
     @State private var isFinishListFlag: Bool = false
     @State private var isEatListFlag: Bool = false
+    @State private var isTimerListFlag: Bool = false
     @State private var isHealthListFlag: Bool = false
     @State private var isMapFlag: Bool = false
     
@@ -112,7 +113,6 @@ struct ContentView: View {
                 
                 Button(action: {
                     self.isEatListFlag.toggle()
-                    manager.scheduleNotification(trigger: .time)
                 }, label: {
                     Text("🥙 식단")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
@@ -121,9 +121,20 @@ struct ContentView: View {
                 })
                 
                 Button(action: {
+                    self.isTimerListFlag.toggle()
+                }, label: {
+                    Text("⏰ 시간 관리")
+                        .font(.custom("AppleSDGothicNeo-Medium", size: 19))
+                        .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
+                })
+                .fullScreenCover(isPresented: $isTimerListFlag) {
+                    
+                }
+                
+                Button(action: {
                     self.isMapFlag.toggle()
                 }, label: {
-                    Text("🏃‍♂️‍➡️ 운동")
+                    Text("🏃‍♂️‍➡️ 걷기 운동")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                         .onChange(of: scenePhase) { oldPhase, newPhase in
                             print("oldPhase = \(oldPhase), newPhase = \(newPhase)")

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 
 struct CustomItemView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -21,6 +22,7 @@ struct CustomItemView: View {
     @State private var locationName: String = ""
     
     var updateCompletion: ((String?) -> Void)? = nil
+    var updateLocationDataCompletion: ((UserPlaceInfoData, CLLocationCoordinate2D) -> Void)? = nil
     
     var body: some View {
         VStack {
@@ -79,7 +81,7 @@ struct CustomItemView: View {
             .clearModalBackground()
         }
         .fullScreenCover(isPresented: $isLocationEdit, content: {
-            MapView(isSearchTextField: true)
+            MapView(searchLocationPlace: locationData, updateLocationDataCompletion: updateLocationDataCompletion)
         })
         .onAppear {
             self.locationName = locationData.alias
@@ -101,6 +103,7 @@ struct HorizontalListView: View {
     @State private var editId: String = ""
 
     var locationUpdateHandler: ((Bool) -> Void)? = nil
+    var updateLocationDataCompletion: ((UserPlaceInfoData, CLLocationCoordinate2D) -> Void)? = nil
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -116,7 +119,7 @@ struct HorizontalListView: View {
                         self.locationViewModel.updateLocationForAlias(locationData, editAlias: updateAlias)
                         locationLists = locationViewModel.locationLists
                         locationUpdateHandler?(true)
-                    })
+                    }, updateLocationDataCompletion: updateLocationDataCompletion)
                 }
                 
                 if let locationData = locationViewModel.addUILocationList() {

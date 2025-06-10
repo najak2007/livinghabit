@@ -30,6 +30,8 @@ struct ToDoListView: View {
         VStack (spacing: 0) {
             HorizontalListView(locationViewModel: $locationViewModel, locationUpdateHandler: { isUpdate in
                 placeSectionHeadList = locationViewModel.locationLists
+            }, updateLocationDataCompletion: { userPlaceInfoData, updateCoordinate2D in
+                locationViewModel.updateLocationForCoordinate(userPlaceInfoData, editLatitude: updateCoordinate2D.latitude, editLongitude: updateCoordinate2D.longitude)
             })
                 .padding(.top, 35)
                 .padding(.horizontal, 10)
