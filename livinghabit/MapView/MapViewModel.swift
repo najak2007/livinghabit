@@ -25,7 +25,7 @@ class MapViewModel: NSObject, ObservableObject {
     @Published var locationInfoDatas: [LocationInfoData] = []
     
     var searchLocationPlace: UserPlaceInfoData? = nil
-    var selectedLocationHandler: ((UserPlaceInfoData?) -> Void)? = nil
+    var selectedLocationHandler: ((UserPlaceInfoData?, CLLocationCoordinate2D) -> Void)? = nil
     
     let manager = NotificationManager.instance
     
@@ -74,7 +74,7 @@ class MapViewModel: NSObject, ObservableObject {
         print("On long tap coordinates: \(coordinate)")
     }
     
-    func setCenter(_ currentRegion: MKCoordinateRegion? = nil, isSearchMode: Bool = false, selectedLocationHandler: ((UserPlaceInfoData?) -> Void)? = nil) {
+    func setCenter(_ currentRegion: MKCoordinateRegion? = nil, isSearchMode: Bool = false, selectedLocationHandler: ((UserPlaceInfoData?, CLLocationCoordinate2D) -> Void)? = nil) {
         var region = currentRegion
         if region == nil {
             region = self.currentRegion()
@@ -144,13 +144,8 @@ class MapViewModel: NSObject, ObservableObject {
     
     private func showAnnotationDetail(annotation: MKAnnotation) {
         if let annotation = annotation as? OBCustomAnnotation {
-            
-            guard var updateUserPlaceInfoData = searchLocationPlace else { return }
-            
-            updateUserPlaceInfoData.latitude = annotation.coordinate.latitude
-            updateUserPlaceInfoData.longitude = annotation.coordinate.longitude
-            
-            self.selectedLocationHandler?(updateUserPlaceInfoData)
+            guard let updateUserPlaceInfoData = searchLocationPlace else { return }
+            self.selectedLocationHandler?(updateUserPlaceInfoData, annotation.coordinate)
         }
     }
     

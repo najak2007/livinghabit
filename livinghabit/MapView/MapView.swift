@@ -20,6 +20,7 @@ struct MapView: View {
     @State private var showUserPlaceSave: Bool = false
     
     var searchLocationPlace: UserPlaceInfoData? = nil
+    @State private var selectingCoordinate: CLLocationCoordinate2D? = nil
     
     var body: some View {
         VStack {
@@ -75,7 +76,8 @@ struct MapView: View {
                 viewModel.setCenter(nil)
                 viewModel.searchLocationPlace = nil
             } else {
-                viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true, selectedLocationHandler: { placeInfoData in
+                viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true, selectedLocationHandler: { originalUserPlaceInfo, selectedCoordinate in
+                    selectingCoordinate = selectedCoordinate
                     self.showUserPlaceSave.toggle()
                 })
                 viewModel.searchLocationPlace = searchLocationPlace
@@ -87,12 +89,14 @@ struct MapView: View {
             }
         }
         .sheet(isPresented: $showUserPlaceSave) {
-            ConfirmAlertView(title: searchLocationPlace?.alias ?? "", message: "위치를 저장할까요?", LButtonTitle: "아니오", RButtonTitle: "예", onSave: {
+            ConfirmAlertView(title: searchLocationPlace?.alias ?? "", message: "위치 정보를 저장할까요?", LButtonTitle: "아니오", RButtonTitle: "예", onSave: {
                 isResult in
                 if isResult == true {
-                    
+                    self.presentationMode.wrappedValue.dismiss()
                 }
+                showUserPlaceSave.toggle()
             })
+            .clearModalBackground()
         }
         .navigationBarHidden(true)
     }
