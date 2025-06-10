@@ -17,6 +17,7 @@ struct MapView: View {
     @State var region: MKCoordinateRegion?
     @State private var searchText = ""
     @State private var placemarkMenu: [CLPlacemark] = []
+    @State private var showUserPlaceSave: Bool = false
     
     var searchLocationPlace: UserPlaceInfoData? = nil
     
@@ -75,7 +76,7 @@ struct MapView: View {
                 viewModel.searchLocationPlace = nil
             } else {
                 viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true, selectedLocationHandler: { placeInfoData in
-                    
+                    self.showUserPlaceSave.toggle()
                 })
                 viewModel.searchLocationPlace = searchLocationPlace
             }
@@ -85,8 +86,15 @@ struct MapView: View {
                 viewModel.setCenter(nil)
             }
         }
+        .sheet(isPresented: $showUserPlaceSave) {
+            ConfirmAlertView(title: searchLocationPlace?.alias ?? "", message: "위치를 저장할까요?", LButtonTitle: "아니오", RButtonTitle: "예", onSave: {
+                isResult in
+                if isResult == true {
+                    
+                }
+            })
+        }
         .navigationBarHidden(true)
-        .background(Color.white)
     }
 }
 
