@@ -21,6 +21,7 @@ struct MapView: View {
     
     var searchLocationPlace: UserPlaceInfoData? = nil
     @State private var selectingCoordinate: CLLocationCoordinate2D? = nil
+    var updateLocationDataCompletion: ((UserPlaceInfoData, CLLocationCoordinate2D) -> Void)? = nil
     
     var body: some View {
         VStack {
@@ -92,6 +93,12 @@ struct MapView: View {
             ConfirmAlertView(title: searchLocationPlace?.alias ?? "", message: "위치 정보를 저장할까요?", LButtonTitle: "아니오", RButtonTitle: "예", onSave: {
                 isResult in
                 if isResult == true {
+                    guard let updateHandler = updateLocationDataCompletion else { return }
+                    guard let selectingCoordinate = selectingCoordinate else { return }
+                    guard let selectedLocationPlace = searchLocationPlace else { return }
+
+                    updateHandler(selectedLocationPlace, selectingCoordinate)
+
                     self.presentationMode.wrappedValue.dismiss()
                 }
                 showUserPlaceSave.toggle()
