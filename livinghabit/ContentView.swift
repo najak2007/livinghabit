@@ -128,7 +128,7 @@ struct ContentView: View {
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
                 .fullScreenCover(isPresented: $isTimerListFlag) {
-                    
+                    TimeListView()
                 }
                 
                 Button(action: {

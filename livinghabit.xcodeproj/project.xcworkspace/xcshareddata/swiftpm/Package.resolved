@@ -1,5 +1,5 @@
 {
-  "originHash" : "446f87a1f689e72a6b0b542700b74e18298aba7d9165c944b5753e0a01c6416c",
+  "originHash" : "a3e0e996f07d91c1859eb509aa4a8e4143a14de2c0410dca463d58c550efb866",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,6 +143,15 @@
       "state" : {
         "revision" : "5dd1907d64f0d36f158f61a466bab75067224893",
         "version" : "6.9.0"
+      }
+    },
+    {
+      "identity" : "solar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ceeK/Solar.git",
+      "state" : {
+        "revision" : "c2b96f2d5fb7f835b91cefac5e83101f54643901",
+        "version" : "3.0.1"
       }
     },
     {
