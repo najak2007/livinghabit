@@ -72,10 +72,12 @@ struct MapView: View {
         .onAppear {
             if searchLocationPlace == nil {
                 viewModel.setCenter(nil)
-                viewModel.searchForLocationName = ""
+                viewModel.searchLocationPlace = nil
             } else {
-                viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true)
-                viewModel.searchForLocationName = searchLocationPlace?.alias ?? ""
+                viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true, selectedLocationHandler: { placeInfoData in
+                    
+                })
+                viewModel.searchLocationPlace = searchLocationPlace
             }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
