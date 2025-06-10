@@ -18,7 +18,7 @@ struct MapView: View {
     @State private var searchText = ""
     @State private var placemarkMenu: [CLPlacemark] = []
     
-    var searchLocationPlace: String = ""
+    var searchLocationPlace: UserPlaceInfoData? = nil
     
     var body: some View {
         VStack {
@@ -34,7 +34,7 @@ struct MapView: View {
                         Image("talk_close")
                     })
                     
-                    if searchLocationPlace.isEmpty {
+                    if searchLocationPlace == nil {
                         Spacer()
                         Button(action: {
                             
@@ -70,12 +70,12 @@ struct MapView: View {
             }
         }
         .onAppear {
-            if searchLocationPlace.isEmpty {
+            if searchLocationPlace == nil {
                 viewModel.setCenter(nil)
                 viewModel.searchForLocationName = ""
             } else {
-                viewModel.setCenter(nil, isSearchMode: !searchLocationPlace.isEmpty)
-                viewModel.searchForLocationName = searchLocationPlace
+                viewModel.setCenter(nil, isSearchMode: searchLocationPlace == nil ? false : true)
+                viewModel.searchForLocationName = searchLocationPlace?.alias ?? ""
             }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
