@@ -18,6 +18,7 @@ struct ClockDayView: View {
 
     var body: some View {
         Text("\(dayOfMonth)")
+            .foregroundColor(.black)
             .background(.white)
             .padding(4)
             .overlay(

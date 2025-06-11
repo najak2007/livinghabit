@@ -16,7 +16,7 @@ struct TimeListView: View {
     
     var body: some View {
         VStack {
-            LocationDetailsView(location: ClockLocation.locationSeoul)
+
             
             List {
                 
