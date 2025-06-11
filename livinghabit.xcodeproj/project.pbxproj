@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A94FEF22DF84A60001F67B5 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = 7A94FEF12DF84A60001F67B5 /* Solar */; };
 		7A94FF032DF852F8001F67B5 /* watchLivinghabit Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7A94FEF92DF852F7001F67B5 /* watchLivinghabit Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7AAFC9B22DA7E10500BFE6BA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B12DA7E10500BFE6BA /* FirebaseAnalytics */; };
 		7AAFC9B42DA7E10500BFE6BA /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAFC9B32DA7E10500BFE6BA /* FirebaseCrashlytics */; };
@@ -21,6 +20,10 @@
 		7AF9F7EC2DAD2C3600317732 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7AF9F7EB2DAD2C3600317732 /* Alamofire */; };
 		8914871A2DBEEF1C0082D7BC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 891487192DBEEF1C0082D7BC /* RealmSwift */; };
 		8914871B2DBEEF290082D7BC /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 891487192DBEEF1C0082D7BC /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		8923267F2DF8EBF2009C645F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8923267E2DF8EBF2009C645F /* WidgetKit.framework */; };
+		892326812DF8EBF2009C645F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892326802DF8EBF2009C645F /* SwiftUI.framework */; };
+		892326922DF8EBF4009C645F /* LivingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8923267C2DF8EBF2009C645F /* LivingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		89CE346C2DF8EE32003490DD /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = 89CE346B2DF8EE32003490DD /* Solar */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +33,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7A94FEF82DF852F7001F67B5;
 			remoteInfo = "watchLivinghabit Watch App";
+		};
+		892326902DF8EBF4009C645F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AAFC9952DA7E01D00BFE6BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8923267B2DF8EBF2009C645F;
+			remoteInfo = LivingWidgetExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -56,18 +66,47 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		892326972DF8EBF4009C645F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				892326922DF8EBF4009C645F /* LivingWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7A94FEF92DF852F7001F67B5 /* watchLivinghabit Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "watchLivinghabit Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AAFC99D2DA7E01D00BFE6BA /* livinghabit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = livinghabit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8923267C2DF8EBF2009C645F /* LivingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LivingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8923267E2DF8EBF2009C645F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		892326802DF8EBF2009C645F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		892326962DF8EBF4009C645F /* Exceptions for "LivingWidget" folder in "LivingWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8923267B2DF8EBF2009C645F /* LivingWidgetExtension */;
+		};
 		89C5E9912DC196B3003F970C /* Exceptions for "livinghabit" folder in "livinghabit" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+			);
+			target = 7AAFC99C2DA7E01D00BFE6BA /* livinghabit */;
+		};
+		89CE38312DF94A40003490DD /* Exceptions for "LivingWidget" folder in "livinghabit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LivingWidgetLiveActivity.swift,
+				LockScreenLiveActivityView.swift,
 			);
 			target = 7AAFC99C2DA7E01D00BFE6BA /* livinghabit */;
 		};
@@ -87,6 +126,15 @@
 			path = livinghabit;
 			sourceTree = "<group>";
 		};
+		892326822DF8EBF2009C645F /* LivingWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				89CE38312DF94A40003490DD /* Exceptions for "LivingWidget" folder in "livinghabit" target */,
+				892326962DF8EBF4009C645F /* Exceptions for "LivingWidget" folder in "LivingWidgetExtension" target */,
+			);
+			path = LivingWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89CE346C2DF8EE32003490DD /* Solar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,12 +156,20 @@
 				7AAFC9B82DA7E10500BFE6BA /* FirebaseMessaging in Frameworks */,
 				7AAFC9B42DA7E10500BFE6BA /* FirebaseCrashlytics in Frameworks */,
 				7AF9F7EC2DAD2C3600317732 /* Alamofire in Frameworks */,
-				7A94FEF22DF84A60001F67B5 /* Solar in Frameworks */,
 				7AAFC9BD2DA7E22200BFE6BA /* RxBlocking in Frameworks */,
 				7AAFC9B22DA7E10500BFE6BA /* FirebaseAnalytics in Frameworks */,
 				8914871A2DBEEF1C0082D7BC /* RealmSwift in Frameworks */,
 				7AAFC9B62DA7E10500BFE6BA /* FirebaseInAppMessaging-Beta in Frameworks */,
 				7AAFC9C32DA7E22200BFE6BA /* RxSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		892326792DF8EBF2009C645F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				892326812DF8EBF2009C645F /* SwiftUI.framework in Frameworks */,
+				8923267F2DF8EBF2009C645F /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +181,8 @@
 			children = (
 				7AAFC99F2DA7E01D00BFE6BA /* livinghabit */,
 				7A94FEFA2DF852F7001F67B5 /* watchLivinghabit Watch App */,
+				892326822DF8EBF2009C645F /* LivingWidget */,
+				8923267D2DF8EBF2009C645F /* Frameworks */,
 				7AAFC99E2DA7E01D00BFE6BA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -133,8 +192,18 @@
 			children = (
 				7AAFC99D2DA7E01D00BFE6BA /* livinghabit.app */,
 				7A94FEF92DF852F7001F67B5 /* watchLivinghabit Watch App.app */,
+				8923267C2DF8EBF2009C645F /* LivingWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8923267D2DF8EBF2009C645F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8923267E2DF8EBF2009C645F /* WidgetKit.framework */,
+				892326802DF8EBF2009C645F /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +226,7 @@
 			);
 			name = "watchLivinghabit Watch App";
 			packageProductDependencies = (
+				89CE346B2DF8EE32003490DD /* Solar */,
 			);
 			productName = "watchLivinghabit Watch App";
 			productReference = 7A94FEF92DF852F7001F67B5 /* watchLivinghabit Watch App.app */;
@@ -171,11 +241,13 @@
 				7AAFC99B2DA7E01D00BFE6BA /* Resources */,
 				8914871C2DBEEF290082D7BC /* Embed Frameworks */,
 				7A94FF072DF852F8001F67B5 /* Embed Watch Content */,
+				892326972DF8EBF4009C645F /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				7A94FF022DF852F8001F67B5 /* PBXTargetDependency */,
+				892326912DF8EBF4009C645F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				7AAFC99F2DA7E01D00BFE6BA /* livinghabit */,
@@ -193,11 +265,32 @@
 				7AAFC9C22DA7E22200BFE6BA /* RxSwift */,
 				7AF9F7EB2DAD2C3600317732 /* Alamofire */,
 				891487192DBEEF1C0082D7BC /* RealmSwift */,
-				7A94FEF12DF84A60001F67B5 /* Solar */,
 			);
 			productName = livinghabit;
 			productReference = 7AAFC99D2DA7E01D00BFE6BA /* livinghabit.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8923267B2DF8EBF2009C645F /* LivingWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 892326932DF8EBF4009C645F /* Build configuration list for PBXNativeTarget "LivingWidgetExtension" */;
+			buildPhases = (
+				892326782DF8EBF2009C645F /* Sources */,
+				892326792DF8EBF2009C645F /* Frameworks */,
+				8923267A2DF8EBF2009C645F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				892326822DF8EBF2009C645F /* LivingWidget */,
+			);
+			name = LivingWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = LivingWidgetExtension;
+			productReference = 8923267C2DF8EBF2009C645F /* LivingWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -206,13 +299,16 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					7A94FEF82DF852F7001F67B5 = {
 						CreatedOnToolsVersion = 16.4;
 					};
 					7AAFC99C2DA7E01D00BFE6BA = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					8923267B2DF8EBF2009C645F = {
 						CreatedOnToolsVersion = 16.3;
 					};
 				};
@@ -231,7 +327,7 @@
 				7AAFC9BB2DA7E22200BFE6BA /* XCRemoteSwiftPackageReference "RxSwift" */,
 				7AF9F7EA2DAD2C3600317732 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				891487182DBEEF1C0082D7BC /* XCRemoteSwiftPackageReference "realm-swift" */,
-				7A94FEF02DF84A60001F67B5 /* XCRemoteSwiftPackageReference "Solar" */,
+				89CE346A2DF8EE32003490DD /* XCRemoteSwiftPackageReference "Solar" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7AAFC99E2DA7E01D00BFE6BA /* Products */;
@@ -240,6 +336,7 @@
 			targets = (
 				7AAFC99C2DA7E01D00BFE6BA /* livinghabit */,
 				7A94FEF82DF852F7001F67B5 /* watchLivinghabit Watch App */,
+				8923267B2DF8EBF2009C645F /* LivingWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -253,6 +350,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7AAFC99B2DA7E01D00BFE6BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8923267A2DF8EBF2009C645F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -276,6 +380,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		892326782DF8EBF2009C645F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -283,6 +394,11 @@
 			isa = PBXTargetDependency;
 			target = 7A94FEF82DF852F7001F67B5 /* watchLivinghabit Watch App */;
 			targetProxy = 7A94FF012DF852F8001F67B5 /* PBXContainerItemProxy */;
+		};
+		892326912DF8EBF4009C645F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8923267B2DF8EBF2009C645F /* LivingWidgetExtension */;
+			targetProxy = 892326902DF8EBF4009C645F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -293,12 +409,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GFSSMD5582;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=watchos*]" = GFSSMD5582;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = watchLivinghabit;
+				INFOPLIST_KEY_CFBundleDisplayName = "오늘";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = co.kr.oceanbleu.Livinghabit;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -309,6 +427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.kr.oceanbleu.Livinghabit.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = Oceanbleu_Livinghabit_Watch_20250610;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -324,12 +443,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GFSSMD5582;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=watchos*]" = GFSSMD5582;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = watchLivinghabit;
+				INFOPLIST_KEY_CFBundleDisplayName = "오늘";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = co.kr.oceanbleu.Livinghabit;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -340,6 +461,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.kr.oceanbleu.Livinghabit.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = Oceanbleu_Livinghabit_Watch_20250610;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -485,10 +607,11 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = livinghabit/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "오늘";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -528,10 +651,11 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = livinghabit/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "오늘";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -553,6 +677,70 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		892326942DF8EBF4009C645F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = GFSSMD5582;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LivingWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LivingWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.kr.oceanbleu.Livinghabit.LivingWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Oceanbleu_Livinghabit_Widget_20250414;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		892326952DF8EBF4009C645F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = GFSSMD5582;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LivingWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LivingWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.kr.oceanbleu.Livinghabit.LivingWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Oceanbleu_Livinghabit_Widget_20250414;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -586,17 +774,18 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		892326932DF8EBF4009C645F /* Build configuration list for PBXNativeTarget "LivingWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				892326942DF8EBF4009C645F /* Debug */,
+				892326952DF8EBF4009C645F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7A94FEF02DF84A60001F67B5 /* XCRemoteSwiftPackageReference "Solar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ceeK/Solar.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.1;
-			};
-		};
 		7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -629,14 +818,17 @@
 				kind = branch;
 			};
 		};
+		89CE346A2DF8EE32003490DD /* XCRemoteSwiftPackageReference "Solar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ceeK/Solar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7A94FEF12DF84A60001F67B5 /* Solar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7A94FEF02DF84A60001F67B5 /* XCRemoteSwiftPackageReference "Solar" */;
-			productName = Solar;
-		};
 		7AAFC9B12DA7E10500BFE6BA /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7AAFC9B02DA7E10500BFE6BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -691,6 +883,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 891487182DBEEF1C0082D7BC /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		89CE346B2DF8EE32003490DD /* Solar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89CE346A2DF8EE32003490DD /* XCRemoteSwiftPackageReference "Solar" */;
+			productName = Solar;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

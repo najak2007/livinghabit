@@ -87,7 +87,6 @@ struct ContentView: View {
             }
             .padding(.horizontal, 20)
         
-#if true
             List {
                 Button(action: {
                     self.isToDoListFlag.toggle()
@@ -145,97 +144,10 @@ struct ContentView: View {
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
                 })
                 .fullScreenCover(isPresented: $isMapFlag) {
-                    MapView()
+                    MapView(isHealthMode: true)
                 }
             }.environment(\.defaultMinListRowHeight, 70)
-#else
-            NavigationView {
-                List {
-                    NavigationLink(destination: ToDoListView()) {
-                        Text("☑️ 할 일")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                    }
-                    
-                    NavigationLink(destination: Text("Detail View 2")) {
-                        Text("✅ 한 일")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                    }
-                    
-                    NavigationLink(destination: Text("Detail View 3")) {
-                        Text("🥙 식단")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                    }
 
-                    NavigationLink(destination: HealthView(region: region)) {
-                        Text("🏃‍♂️‍➡️ 운동")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                            .onChange(of: scenePhase) { oldPhase, newPhase in
-                                print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
-                                if newPhase == .active, oldPhase == .inactive {
-                                    currentRegion()
-                                }
-                            }
-                    }
-                    
-                    NavigationLink(destination: MapView(region: region, commonViewModel: commonViewModel)) {
-                        Text("🗺️ 지도")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                            .onChange(of: scenePhase) { oldPhase, newPhase in
-                                print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
-                                if newPhase == .active, oldPhase == .inactive {
-                                    currentRegion()
-                                }
-                            }
-                    }
-#if __TRANSKATE_VIEW__
-                    NavigationLink(destination: TranslateEXView()) {
-                        Text("번역 예정")
-                            .font(.custom("AppleSDGothicNeo-Medium", size: 19))
-                    }
-
-                    NavigationLink(destination: WeatherView()) {
-                        Text("\(timeViewModel.getTimeCondition())")
-                    }
-                    NavigationLink(destination: Text("날씨 정보")) {
-                        if locationManager.location != nil {
-                            if let currentWeather = weatherServiceManager.currentWeather {
-                                HStack {
-                                    Image(systemName: currentWeather.symbolName)
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .frame(width: 30, height: 30)
-                                        .onChange(of: scenePhase) { oldPhase, newPhase in
-                                            print("oldPhase = \(oldPhase), newPhase = \(newPhase)")
-                                            if newPhase == .active, oldPhase == .inactive {
-                                                Task {
-                                                    await weatherServiceManager.getWeather(for: locationManager.location!)
-                                                }
-                                            }
-                                        }
-                                    
-                                    let unitStr: String = currentWeather.temperature.unit == .fahrenheit ? "°F" : "°C"
-                                    Text(String(Int(currentWeather.temperature.value.rounded(.down))) + unitStr)
-                                    
-                                    Text(currentWeather.condition.description)
-                                }
-                            } else {
-                                ProgressView("")
-                                    .onAppear {
-                                        Task {
-                                            await weatherServiceManager.getWeather(for: locationManager.location!)
-                                        }
-                                    }
-                            }
-                        } else if let error = locationManager.errorMessage {
-                            Text(error)
-                        } else {
-                            ProgressView("")
-                        }
-                    }
-#endif
-                }.environment(\.defaultMinListRowHeight, 70)
-            }
-#endif          /* NavigationView End */
         }
         .onAppear {
             manager.requestAuthorization()
