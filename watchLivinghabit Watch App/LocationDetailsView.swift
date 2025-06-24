@@ -26,12 +26,18 @@ struct LocationDetailsView: View {
 
     var body: some View {
         TimelineView(.animation) { context in
-            VStack {
-                AnalogClock(
-                    time: context.date,
-                    location: location)
-                Spacer()
+            NavigationView {
+                
+                NavigationLink {
+                    ToDoListView(date: context.date, location: location)
+                } label: {
+                    AnalogClock(
+                        time: context.date,
+                        location: location)
+                    
+                }
             }
+        
         }
     }
 }
