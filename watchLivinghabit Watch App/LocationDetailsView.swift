@@ -10,7 +10,8 @@ import SwiftUI
 struct LocationDetailsView: View {
     var location: ClockLocation
     @State private var showSeconds = true
-
+    @State private var isToDoListShow = false
+    
     func timeInLocalTimeZone(_ date: Date, showSeconds: Bool) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .none
@@ -25,20 +26,26 @@ struct LocationDetailsView: View {
     }
 
     var body: some View {
-        TimelineView(.animation) { context in
-            NavigationView {
-                
-                NavigationLink {
-                    ToDoListView(date: context.date, location: location)
-                } label: {
-                    AnalogClock(
-                        time: context.date,
-                        location: location)
-                    
-                }
+        Button(action: {
+            self.isToDoListShow.toggle()
+        }, label: {
+            TimelineView(.animation) { context in
+                AnalogClock(
+                    time: context.date,
+                    location: location)
             }
-        
+        })
+        .buttonStyle(.borderless)
+        .fullScreenCover(isPresented: $isToDoListShow) {
+            ToDoListView(date: Date(), location: location)
         }
+        
+        
+//        TimelineView(.animation) { context in
+//            AnalogClock(
+//                time: context.date,
+//                location: location)
+//        }
     }
 }
 
