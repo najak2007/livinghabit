@@ -116,8 +116,10 @@ struct ContentView: View {
                     Text("🥙 식단")
                         .font(.custom("AppleSDGothicNeo-Medium", size: 19))
                         .foregroundColor(colorScheme == .dark ?  Color(hex: "#FFFFFF") : Color(hex: "#000000"))
-
                 })
+                .fullScreenCover(isPresented: $isEatListFlag) {
+                    DietMenuView()
+                }
                 
                 Button(action: {
                     self.isTimerListFlag.toggle()

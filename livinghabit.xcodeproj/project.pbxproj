@@ -609,6 +609,7 @@
 				INFOPLIST_FILE = livinghabit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "오늘";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "식단 관리를 위해 음식 사진 촬영해서 분석하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
@@ -653,6 +654,7 @@
 				INFOPLIST_FILE = livinghabit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "오늘";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "식단 관리를 위해 음식 사진 촬영해서 분석하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "실시간으로 현재 위치에 맞는 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
