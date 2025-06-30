@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ToDoListHeader: View {
+struct ListHeader: View {
     @Environment(\.colorScheme) var colorScheme
     var headerTitle: String
 

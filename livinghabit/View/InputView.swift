@@ -1,5 +1,5 @@
 //
-//  ToDoInputView.swift
+//  InputView.swift
 //  livinghabit
 //
 //  Created by najak on 6/3/25.
@@ -8,17 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct ToDoInputView: View {
+struct InputView: View {
     
     @State var inputText: String = ""
     var originalText: String = ""
     @FocusState private var focusedField: Bool
     var inputHandler: (String) -> Void
     var selectHandler: ((Bool) -> Void)? = nil
+    var image: Image? = nil
     
     var body: some View {
         HStack {
-            if inputText.isEmpty == false{
+            if inputText.isEmpty == false, let selectHandler = selectHandler {
                 Button(action: {
                     self.selectHandler?(true)
                 }, label: {
@@ -28,7 +29,7 @@ struct ToDoInputView: View {
             } 
 
             HStack {
-                TextField("무엇을 할까?", text: $inputText)
+                TextField("", text: $inputText)
                     .padding(.leading, inputText.isEmpty ? 8 : 2)
                     .focused($focusedField)
                     .font(.custom("AppleSDGothicNeo-Medium", size: 18))
@@ -46,6 +47,10 @@ struct ToDoInputView: View {
                             self.inputText = ""
                         }
                     }
+                
+                if inputText.isEmpty == false, image != nil {
+                    Image(systemName: "camera.circle.fill")
+                }
             }
             .background(RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.blue.opacity(0.8), lineWidth: focusedField == false ? 0 : 1)

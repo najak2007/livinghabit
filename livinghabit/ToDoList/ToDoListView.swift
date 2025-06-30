@@ -38,12 +38,12 @@ struct ToDoListView: View {
             
             List {
                 ForEach(placeSectionHeadList, id: \.id) { placeInfoData in
-                    Section(header: ToDoListHeader(headerTitle: placeInfoData.alias)) {
+                    Section(header: ListHeader(headerTitle: placeInfoData.alias)) {
                         ForEach(viewModel.toDoLists, id: \.id) { ToDoListData in
                             if placeInfoData.id == ToDoListData.placeInfoData?.id {
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        ToDoInputView(inputText: ToDoListData.toDoList, originalText: ToDoListData.toDoList, inputHandler: { inputText in
+                                        InputView(inputText: ToDoListData.toDoList, originalText: ToDoListData.toDoList, inputHandler: { inputText in
                                             if !inputText.isEmpty {
                                                 viewModel.updateToDoList(toDoListData: ToDoListData, newToDoList: inputText)
                                             }
@@ -64,7 +64,7 @@ struct ToDoListView: View {
                         .onDelete(perform: viewModel.deleteToDoList)
                         .onMove(perform: viewModel.moveList)
                         
-                        ToDoInputView(inputText: "", originalText: "", inputHandler: { inputText in
+                        InputView(inputText: "", originalText: "", inputHandler: { inputText in
                             if !inputText.isEmpty {
                                 let toDoListData = ToDoListData()
                                 toDoListData.toDoList = inputText

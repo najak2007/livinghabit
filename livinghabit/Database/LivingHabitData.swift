@@ -42,6 +42,18 @@ final class ToDoListData: Object, Comparable {
     }
 }
 
+final class DietMenu: Object, Comparable {
+    @objc dynamic var id: String = ""
+    @objc dynamic var meal: String = ""
+    @objc dynamic var food: String = ""
+    @objc dynamic var date: Date = Date()
+    @objc dynamic var orderByIndex: Int = 99
+    
+    static func < (lhs: DietMenu, rhs: DietMenu) -> Bool {
+        return lhs.orderByIndex < rhs.orderByIndex
+    }
+}
+
 final class HourWeatherData: Object {
     @objc dynamic var id: String = ""
     @objc dynamic var temperature: String = ""
